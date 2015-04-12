@@ -5,7 +5,7 @@ json_config
 .. image:: https://badge.fury.io/py/json_config.png
     :target: https://badge.fury.io/py/json_config
 
-.. image:: https://travis-ci.org/bionikspoon/json_config.png?branch=master
+.. image:: https://travis-ci.org/bionikspoon/json_config.png?branch=develop
     :target: https://travis-ci.org/bionikspoon/json_config
 
 .. image:: https://pypip.in/version/json_config/badge.png
