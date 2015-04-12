@@ -3,7 +3,7 @@ Contributing
 ============
 
 Contributions are welcome, and they are greatly appreciated! Every
-little bit helps, and credit will always be given. 
+little bit helps, and credit will always be given.
 
 You can contribute in many ways:
 
@@ -36,7 +36,7 @@ is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-json_config could always use more documentation, whether as part of the 
+json_config could always use more documentation, whether as part of the
 official json_config docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
@@ -84,7 +84,7 @@ To get tox, just pip install it.
 
 6. Submit a pull request through the GitHub website.
 
-.. _Fork: https://github.com/Nekroze/json_config/fork
+.. _Fork: https://github.com/bionikspoon/json_config/fork
 
 Pull Request Guidelines
 -----------------------
@@ -96,7 +96,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
 3. The pull request should work for Python 2.6, 2.7, and 3.3, and for PyPy.
-   Check https://travis-ci.org/bionikspoon/json_config 
+   Check https://travis-ci.org/bionikspoon/json_config
    under pull requests for active pull requests or run the ``tox`` command and
    make sure that the tests pass for all supported Python versions.
 

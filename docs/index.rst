@@ -24,4 +24,4 @@ If you have any suggestions or questions about **json_config** feel free to emai
 at bionikspoon@gmail.com.
 
 If you encounter any errors or problems with **json_config**, please let me know!
-Open an Issue at the GitHub http://github.com/bionikspoon/json_config main repository.
+Open an Issue at the GitHub https://github.com/bionikspoon/json_config main repository.

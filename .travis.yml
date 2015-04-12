@@ -2,16 +2,19 @@
 
 language: python
 
-python:
-  - "3.3"
-  - "2.7"
-  - "2.6"
-  - "pypy"
+install:
+  - pip install tox
+  - pip install coveralls
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: 
-  - pip install -r requirements.txt
-
-# command to run tests, e.g. python setup.py test
+env:
+  - TOX_ENV=py26
+  - TOX_ENV=py27
+  - TOX_ENV=py32
+  - TOX_ENV=py33
+  - TOX_ENV=py34
+  - TOX_ENV=pypy
 script:
-  - py.test
+  - tox -e $TOX_ENV
+  - coverage run --source=hangman setup.py test
+after_success:
+  coveralls

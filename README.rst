@@ -3,7 +3,7 @@ json_config
 =============================
 
 .. image:: https://badge.fury.io/py/json_config.png
-    :target: http://badge.fury.io/py/json_config
+    :target: https://badge.fury.io/py/json_config
 
 .. image:: https://travis-ci.org/bionikspoon/json_config.png?branch=master
     :target: https://travis-ci.org/bionikspoon/json_config
