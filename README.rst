@@ -8,8 +8,11 @@ json_config
 .. image:: https://travis-ci.org/bionikspoon/json_config.png?branch=master
     :target: https://travis-ci.org/bionikspoon/json_config
 
-.. image:: https://pypip.in/d/json_config/badge.png
+.. image:: https://pypip.in/version/json_config/badge.png
     :target: https://pypi.python.org/pypi/json_config
+
+.. image:: https://coveralls.io/repos/bionikspoon/json_config/badge.svg
+    :target: https://coveralls.io/r/bionikspoon/json_config
 
 
 A convenience utility for working with json config files.
