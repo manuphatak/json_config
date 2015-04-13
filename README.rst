@@ -2,9 +2,6 @@
 JSON Config
 =============================
 
-.. image:: https://badge.fury.io/py/json_config.png?branch=develop
-    :target: https://badge.fury.io/py/json_config?branch=develop
-
 .. image:: https://travis-ci.org/bionikspoon/json_config.png?branch=develop
     :target: https://travis-ci.org/bionikspoon/json_config
 

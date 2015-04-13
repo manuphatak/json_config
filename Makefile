@@ -18,6 +18,7 @@ clean-build:
 	rm -fr dist/
 	rm -fr *.egg-info
 	rm -fr *.egg
+	$(MAKE) -C docs clean
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
@@ -38,14 +39,15 @@ coverage:
 	coverage report -m
 	coverage html
 	xdg-open htmlcov/index.html
+	$(MAKE) -C docs coverage
 
 docs:
-	rm -f docs/json_config.rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ json_config
+	rm -f docs/source/json_config.rst
+	rm -f docs/source/modules.rst
+	sphinx-apidoc -o docs/source/ json_config
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
-	xdg-open docs/_build/html/index.html
+	xdg-open docs/build/html/index.html
 
 release: clean
 	python setup.py sdist upload
