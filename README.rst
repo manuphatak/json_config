@@ -22,5 +22,3 @@ Features
 --------
 
 * TODO
-
-.. include:: installation.rst

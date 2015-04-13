@@ -15,6 +15,6 @@ env:
   - TOX_ENV=pypy
 script:
   - tox -e $TOX_ENV
-  - coverage run --source=hangman setup.py test
+  - coverage run --source=json_config setup.py test
 after_success:
   coveralls
