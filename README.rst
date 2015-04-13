@@ -1,3 +1,5 @@
+:orphan:
+
 =============================
 JSON Config
 =============================
@@ -23,4 +25,4 @@ Features
 
 * TODO
 
-.. include:: docs/installation.rst
+.. include:: installation.rst
