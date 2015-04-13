@@ -1,5 +1,5 @@
 =============================
-json_config
+JSON Config
 =============================
 
 .. image:: https://badge.fury.io/py/json_config.png
@@ -22,3 +22,5 @@ Features
 --------
 
 * TODO
+
+.. include:: docs/installation.rst
