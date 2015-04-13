@@ -2,16 +2,19 @@
 
 language: python
 
+python:
+  - "2.7"
+
 install:
-  - pip install tox
+  - pip install tox --use-mirrors
   - pip install coveralls
 
 env:
-  - TOX_ENV=py27
-  - TOX_ENV=py34
-  - TOX_ENV=pypy
+  - TOXENV=py27
+  - TOXENV=py34
+  - TOXENV=pypy
 script:
-  - tox -e $TOX_ENV
+  - tox
   - coverage run --source=json_config setup.py test
 after_success:
   coveralls
