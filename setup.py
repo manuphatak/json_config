@@ -5,7 +5,7 @@
 Documentation
 -------------
 
-The full documentation is at https://json_config.rtfd.org.
+The full documentation is at https://json-config.readthedocs.org.
 """
 import os
 import sys

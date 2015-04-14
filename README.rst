@@ -11,6 +11,9 @@ JSON Config
 .. image:: https://coveralls.io/repos/bionikspoon/json_config/badge.svg?branch=develop
     :target: https://coveralls.io/r/bionikspoon/json_config?branch=develop
 
+.. image:: https://readthedocs.org/projects/json-config/badge/?version=develop
+    :target: https://readthedocs.org/projects/json-config/?badge=develop
+    :alt: Documentation Status
 
 A convenience utility for working with json config files.
 
