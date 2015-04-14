@@ -48,7 +48,7 @@ def test_abc_magic_methods_length():
 
 def test_abc_magic_methods_iter(config):
     iter_config = list(config)
-    assert iter_config == ['test', 'cat_1', 'cat_2', 'cat_3']
+    assert set(iter_config) == {'test', 'cat_1', 'cat_2', 'cat_3'}
 
 
 def test_abc_magic_methods_getitem(config):

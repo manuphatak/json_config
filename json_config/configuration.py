@@ -27,7 +27,8 @@ def connect(config_file_):
     try:
         config.update(json.load(open(config_file), object_hook=json_hook))
     except IOError:
-        open(config_file, 'w').close()
+        with open(config_file, 'w') as f:
+            f.close()
 
     return config
 
@@ -59,8 +60,8 @@ class Configuration(defaultdict, MutableMapping):
                 return func(self, *args, **kwargs)
 
             finally:
-                json.dump(config, open(config_file, 'wb'), indent=2, sort_keys=True,
-                          separators=(',', ': '))
+                with open(config_file, 'w') as f:
+                    json.dump(config, f, indent=2, sort_keys=True, separators=(',', ': '))
 
         return _wrapper
 
@@ -73,7 +74,6 @@ class Configuration(defaultdict, MutableMapping):
 
 
     def __getitem__(self, key):
-        print key
         return super(Configuration, self).__getitem__(key)
 
     @save_config
