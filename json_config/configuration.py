@@ -23,7 +23,13 @@ def connect(config_file_):
 
     config_file = config_file_
     config = Configuration()
-    config.update(json.load(open(config_file), object_hook=json_hook))
+
+    try:
+        config.update(json.load(open(config_file), object_hook=json_hook))
+    except IOError:
+        with open(config_file, 'w') as f:
+            f.close()
+
     return config
 
 
@@ -31,6 +37,7 @@ def json_hook(obj):
     config_ = Configuration()
     config_.update(**obj)
     return config_
+
 
 class Configuration(defaultdict, MutableMapping):
     """
@@ -48,12 +55,13 @@ class Configuration(defaultdict, MutableMapping):
 
         @wraps(func)
         def _wrapper(self, *args, **kwargs):
+
             try:
                 return func(self, *args, **kwargs)
 
             finally:
-                json.dump(config, open(config_file, 'wb'), indent=2,
-                          sort_keys=True, separators=(',', ': '))
+                with open(config_file, 'w') as f:
+                    json.dump(config, f, indent=2, sort_keys=True, separators=(',', ': '))
 
         return _wrapper
 
@@ -66,21 +74,15 @@ class Configuration(defaultdict, MutableMapping):
 
 
     def __getitem__(self, key):
-        print key
         return super(Configuration, self).__getitem__(key)
 
     @save_config
     def __delitem__(self, key):
         super(Configuration, self).__delitem__(key)
 
-    def __str__(self):
-        return json.dumps(self, indent=2, sort_keys=True,
-                          separators=(',', ': '))
+    def __repr__(self):
+        return json.dumps(self, indent=2, sort_keys=True, separators=(',', ': '))
 
-
-    @classmethod
-    def loads(cls, *args):
-        pass
 
     @staticmethod
     def factory():

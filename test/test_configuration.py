@@ -38,8 +38,7 @@ def test_loads_json_file_returns_dict_like_obj(config, tmpdir):
     from json_config import configuration
 
     assert config['test'] == 'success'
-    assert configuration.config_file == tmpdir.join(
-        'sample_config.json').strpath
+    assert configuration.config_file == tmpdir.join('sample_config.json').strpath
 
 
 def test_abc_magic_methods_length():
@@ -49,7 +48,7 @@ def test_abc_magic_methods_length():
 
 def test_abc_magic_methods_iter(config):
     iter_config = list(config)
-    assert iter_config == ['test', 'cat_1', 'cat_2', 'cat_3']
+    assert set(iter_config) == {'test', 'cat_1', 'cat_2', 'cat_3'}
 
 
 def test_abc_magic_methods_getitem(config):
@@ -103,3 +102,14 @@ def test_saves_on_nested_delete(config, config_file):
     del config['test']
     expected = json.load(open(config_file))
     assert expected.get('test') is None
+
+
+def test_create_new_json_file(tmpdir):
+    from json_config import configuration
+
+    config = configuration.connect(tmpdir.join('unique_file.json').strpath)
+
+    config['unique'] = 'success'
+    actual = json.load((open(tmpdir.join('unique_file.json').strpath)))
+
+    assert actual == dict(config)
