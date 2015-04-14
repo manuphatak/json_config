@@ -48,7 +48,7 @@ with open('HISTORY.rst') as f:
 # @:off
 setup(
     name='json_config',
-    version='0.1.0',
+    version=version,
     description='A convenience utility for working with JSON config files.',
     long_description=readme + '\n\n' + __doc__ + '\n\n' + history,
     author='Manu Phatak',
