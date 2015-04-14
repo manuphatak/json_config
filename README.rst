@@ -22,3 +22,7 @@ Features
 --------
 
 * TODO
+
+.. include:: installation
+.. include:: usage
+.. include:: history
