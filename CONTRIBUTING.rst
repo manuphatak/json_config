@@ -61,36 +61,30 @@ Ready to contribute? Here's how to set up `json_config` for
 local development.
 
 1. Fork_ the `json_config` repo on GitHub.
-2. Clone your fork locally:
+2. Clone your fork locally::
 
-    .. code-block:: shell
+    $ git clone git@github.com:your_name_here/json_config.git
 
-        $ git clone git@github.com:your_name_here/json_config.git
+3. Create a branch for local development::
 
-3. Create a branch for local development:
+    $ git checkout -b feature/name-of-your-feature
 
-    .. code-block:: shell
-
-        $ git checkout -b name-of-your-bugfix-or-feature
+    $ git checkout -b hotfix/name-of-your-bugfix
 
 Now you can make your changes locally.
 
 4. When you're done making changes, check that your changes pass style and unit
-   tests, including testing other Python versions with tox:
+   tests, including testing other Python versions with tox::
 
-    .. code-block:: shell
-
-        $ tox
+    $ tox
 
 To get tox, just pip install it.
 
-5. Commit your changes and push your branch to GitHub:
+5. Commit your changes and push your branch to GitHub::
 
-    .. code-block:: shell
-
-        $ git add .
-        $ git commit -m "Your detailed description of your changes."
-        $ git push origin name-of-your-bugfix-or-feature
+    $ git add .
+    $ git commit -m "Your detailed description of your changes."
+    $ git push origin name-of-your-bugfix-or-feature
 
 6. Submit a pull request through the GitHub website.
 
@@ -105,7 +99,7 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 2.6, 2.7, and 3.3, and for PyPy.
+3. The pull request should work for Python 2.7, and 3.4, and for PyPy.
    Check https://travis-ci.org/bionikspoon/json_config
    under pull requests for active pull requests or run the ``tox`` command and
    make sure that the tests pass for all supported Python versions.
@@ -114,8 +108,6 @@ Before you submit a pull request, check that it meets these guidelines:
 Tips
 ----
 
-To run a subset of tests:
+To run a subset of tests::
 
-    .. code-block:: shell
-
-	$ py.test test/test_json_config.py
+	 $ py.test test/test_json_config.py
