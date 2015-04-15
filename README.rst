@@ -23,6 +23,5 @@ Features
 
 * TODO
 
-.. include:: installation
-.. include:: usage
-.. include:: history
+.. include:: docs/source/installation.rst
+.. include:: docs/source/usage.rst
