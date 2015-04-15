@@ -1,7 +1,6 @@
-=============================
-JSON Config
-=============================
-
+======
+README
+======
 .. image:: https://travis-ci.org/bionikspoon/json_config.png?branch=develop
     :target: https://travis-ci.org/bionikspoon/json_config
 
@@ -23,5 +22,24 @@ Features
 
 * TODO
 
-.. include:: docs/source/installation.rst
-.. include:: docs/source/usage.rst
+Getting Started
+---------------
+
+Installation
+~~~~~~~~~~~~
+
+At the command line either via easy_install or pip::
+
+    $ easy_install json_config
+    $ pip install json_config
+
+Or, if you have virtualenvwrapper installed::
+
+    $ mkvirtualenv json_config
+    $ pip install json_config
+
+Usage
+~~~~~
+To use json_config in a project::
+
+    import json_config
