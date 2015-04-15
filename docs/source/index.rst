@@ -13,7 +13,7 @@ Contents:
 .. toctree::
    :maxdepth: 4
 
-   readme
+   Readme <readme>
    contributing
    authors
    history

@@ -1,6 +1,6 @@
-======
-README
-======
+===========
+JSON Config
+===========
 .. image:: https://travis-ci.org/bionikspoon/json_config.png?branch=develop
     :target: https://travis-ci.org/bionikspoon/json_config
 
