@@ -61,28 +61,36 @@ Ready to contribute? Here's how to set up `json_config` for
 local development.
 
 1. Fork_ the `json_config` repo on GitHub.
-2. Clone your fork locally::
+2. Clone your fork locally:
 
-    $ git clone git@github.com:your_name_here/json_config.git
+    .. code-block:: shell
 
-3. Create a branch for local development::
+        $ git clone git@github.com:your_name_here/json_config.git
 
-    $ git checkout -b name-of-your-bugfix-or-feature
+3. Create a branch for local development:
+
+    .. code-block:: shell
+
+        $ git checkout -b name-of-your-bugfix-or-feature
 
 Now you can make your changes locally.
 
 4. When you're done making changes, check that your changes pass style and unit
-   tests, including testing other Python versions with tox::
+   tests, including testing other Python versions with tox:
 
-    $ tox
+    .. code-block:: shell
+
+        $ tox
 
 To get tox, just pip install it.
 
-5. Commit your changes and push your branch to GitHub::
+5. Commit your changes and push your branch to GitHub:
 
-    $ git add .
-    $ git commit -m "Your detailed description of your changes."
-    $ git push origin name-of-your-bugfix-or-feature
+    .. code-block:: shell
+
+        $ git add .
+        $ git commit -m "Your detailed description of your changes."
+        $ git push origin name-of-your-bugfix-or-feature
 
 6. Submit a pull request through the GitHub website.
 
@@ -106,6 +114,8 @@ Before you submit a pull request, check that it meets these guidelines:
 Tips
 ----
 
-To run a subset of tests::
+To run a subset of tests:
 
-	 $ py.test test/test_json_config.py
+    .. code-block:: shell
+
+	$ py.test test/test_json_config.py
