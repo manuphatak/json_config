@@ -11,10 +11,9 @@ Contents:
 =========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-   installation
-   usage
+   Readme <readme>
    contributing
    authors
    history
