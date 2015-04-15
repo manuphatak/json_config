@@ -48,6 +48,29 @@ help:
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 	@echo "  coverage   to run coverage check of the documentation (if enabled)"
 
+all:
+	make html
+	make dirhtml
+	make singlehtml
+	make pickle
+	make json
+	make htmlhelp
+	make qthelp
+	make devhelp
+	make epub
+	make latex
+	make text
+	make man
+	make texinfo
+	make info
+	make gettext
+	make changes
+	make xml
+	make pseudoxml
+	make linkcheck
+	make doctest
+	make coverage
+
 clean:
 	rm -rf $(BUILDDIR)/*
 

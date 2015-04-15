@@ -15,6 +15,9 @@ def connect(config_file_):
     """
     Connect to a json config file.
 
+    Returns a python dict-like object.  Automatically syncs with the file.
+    Automatically handles  nested data.
+
     :param str config_file_: String path pointing to json file.
     :return: Dictionary like python object.
     """
@@ -72,7 +75,6 @@ class Configuration(defaultdict, MutableMapping):
     def __setitem__(self, key, value):
         super(Configuration, self).__setitem__(key, value)
 
-
     def __getitem__(self, key):
         return super(Configuration, self).__getitem__(key)
 
@@ -82,7 +84,6 @@ class Configuration(defaultdict, MutableMapping):
 
     def __repr__(self):
         return json.dumps(self, indent=2, sort_keys=True, separators=(',', ': '))
-
 
     @staticmethod
     def factory():

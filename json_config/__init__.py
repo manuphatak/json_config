@@ -17,6 +17,6 @@ A convenience utility for working with json config files.
 """
 __author__ = 'Manu Phatak'
 __email__ = 'bionikspoon@gmail.com'
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 from .configuration import connect

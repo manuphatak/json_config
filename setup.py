@@ -5,7 +5,7 @@
 Documentation
 -------------
 
-The full documentation is at https://json_config.rtfd.org.
+The full documentation is at https://json-config.readthedocs.org.
 """
 import os
 import sys
@@ -48,7 +48,7 @@ with open('HISTORY.rst') as f:
 # @:off
 setup(
     name='json_config',
-    version='0.1.0',
+    version=version,
     description='A convenience utility for working with JSON config files.',
     long_description=readme + '\n\n' + __doc__ + '\n\n' + history,
     author='Manu Phatak',
@@ -67,16 +67,21 @@ setup(
     cmdclass={'test': PyTest},
     tests_require=['pytest', 'mock'],
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'Natural Language :: English',
+        'Programming Language :: Python',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: Implementation :: PyPy',
+        'Programming Language :: Python :: Implementation :: CPython',
+        'Topic :: Database',
+        'Topic :: Software Development',
+        'Topic :: Utilities'
+
+
     ],
 )
 # @:on
