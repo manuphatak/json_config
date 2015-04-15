@@ -25,7 +25,7 @@ Features
 * Lightweight (<5KB) and Fast.
 * Takes advantage of Python's native dictionary syntax.
 
-.. code-block:: pycon
+.. code-block:: python
 
     >>> import json_config
     >>> config = json_config.connect('categories.json')
