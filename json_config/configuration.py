@@ -72,7 +72,6 @@ class Configuration(defaultdict, MutableMapping):
     def __setitem__(self, key, value):
         super(Configuration, self).__setitem__(key, value)
 
-
     def __getitem__(self, key):
         return super(Configuration, self).__getitem__(key)
 
@@ -82,7 +81,6 @@ class Configuration(defaultdict, MutableMapping):
 
     def __repr__(self):
         return json.dumps(self, indent=2, sort_keys=True, separators=(',', ': '))
-
 
     @staticmethod
     def factory():
