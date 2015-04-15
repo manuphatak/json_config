@@ -15,6 +15,9 @@ def connect(config_file_):
     """
     Connect to a json config file.
 
+    Returns a python dict-like object.  Automatically syncs with the file.
+    Automatically handles  nested data.
+
     :param str config_file_: String path pointing to json file.
     :return: Dictionary like python object.
     """
