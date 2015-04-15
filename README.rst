@@ -75,7 +75,9 @@ At the command line either via easy_install or pip:
 
 Getting Started
 ---------------
-To use json_config in a project::
+To use json_config in a project:
+
+.. code-block:: python
 
     import json_config
 
