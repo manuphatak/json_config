@@ -33,6 +33,7 @@ def connect(config_file):
 
 class ConfigObject(defaultdict):
     __parent = None
+
     def save_config(*func_args):
         """
         Decorator.  Write the config file after execution.
@@ -44,14 +45,16 @@ class ConfigObject(defaultdict):
 
         @wraps(func)
         def _wrapper(self, *args, **kwargs):
+            base = self.__parent[0] if self.__parent else self
+            base_hash = hash(self.pformat(base))
             try:
                 return func(self, *args, **kwargs)
 
             finally:
-                if self.__parent:
-                    self = self.__parent[0]
-                with open(self.__config_file, 'w') as f:
-                    json.dump(self, f, indent=2, sort_keys=True, separators=(',', ': '))
+                if not base_hash == hash(self.pformat(base)):
+
+                    with open(self.__config_file, 'w') as f:
+                        f.write(repr(base))
 
         return _wrapper
 
@@ -61,7 +64,11 @@ class ConfigObject(defaultdict):
 
         :return:
         """
-        return ConfigObject(config_file=self.__config_file, depth=1)
+        return ConfigObject(config_file=self.__config_file)
+
+    @staticmethod
+    def pformat(obj):
+        return json.dumps(obj, indent=2, sort_keys=True, separators=(',', ': '))
 
     @classmethod
     def new(cls, *obj, **kwargs):
@@ -88,11 +95,6 @@ class ConfigObject(defaultdict):
     def __getitem__(self, key):
         return super(ConfigObject, self).__getitem__(key)
 
-
     def __repr__(self):
 
-        return json.dumps(self) if not pprint else self.pformat()
-
-    def pformat(self):
-        return json.dumps(self, indent=2, sort_keys=True, separators=(',', ': '))
-
+        return json.dumps(self) if not pprint else self.pformat(self)
