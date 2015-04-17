@@ -1,6 +1,10 @@
 ===========
 json_config
 ===========
+.. image:: https://pypip.in/status/json_config/badge.svg
+    :target: https://pypi.python.org/pypi/json_config/
+    :alt: Development Status
+
 .. image:: https://travis-ci.org/bionikspoon/json_config.svg?branch=develop
     :target: https://travis-ci.org/bionikspoon/json_config
 

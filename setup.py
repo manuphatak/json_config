@@ -50,7 +50,7 @@ setup(
     name='json_config',
     version=version,
     description='A convenience utility for working with JSON config files.',
-    long_description=readme + '\n\n' + __doc__ + '\n\n' + history,
+    long_description='\n\n'.join([__doc__, readme, history]),
     author='Manu Phatak',
     author_email='bionikspoon@gmail.com',
     url='https://github.com/bionikspoon/json_config',
