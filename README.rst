@@ -24,6 +24,7 @@ Features
 * Automatically handles complicated nested data structures.
 * Lightweight (<5KB) and Fast.
 * Takes advantage of Python's native dictionary syntax.
+* Tested against python 2.7, 3.4, and pypy. (2.6, 3.2, 3.3 are in the works)
 
 .. code-block:: python
 

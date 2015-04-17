@@ -3,50 +3,36 @@
 """
 A convenience utility for working with JSON config files.
 """
-from functools import wraps
+from functools import wraps, partial
 import json
-from collections import MutableMapping, defaultdict
+from collections import defaultdict
 
-config_file = None
-config = None
+pprint = True
 
 
-def connect(config_file_):
+def connect(config_file):
     """
     Connect to a json config file.
 
     Returns a python dict-like object.  Automatically syncs with the file.
     Automatically handles  nested data.
 
-    :param str config_file_: String path pointing to json file.
+    :param str config_file: String path pointing to json file.
     :return: Dictionary like python object.
     """
-    global config_file
-    global config
-
-    config_file = config_file_
-    config = Configuration()
-
+    config = ConfigObject(config_file=config_file)
+    json_hook = partial(ConfigObject.new, config_file=config_file, parent=[config])
     try:
         config.update(json.load(open(config_file), object_hook=json_hook))
     except IOError:
-        with open(config_file, 'w') as f:
+        with open(config_file, 'w') as f:  # open + close required for pypy
             f.close()
 
     return config
 
 
-def json_hook(obj):
-    config_ = Configuration()
-    config_.update(**obj)
-    return config_
-
-
-class Configuration(defaultdict, MutableMapping):
-    """
-    Internal class.  Handles nested dictionary recursion.
-    """
-
+class ConfigObject(defaultdict):
+    __parent = None
     def save_config(*func_args):
         """
         Decorator.  Write the config file after execution.
@@ -58,38 +44,55 @@ class Configuration(defaultdict, MutableMapping):
 
         @wraps(func)
         def _wrapper(self, *args, **kwargs):
-
             try:
                 return func(self, *args, **kwargs)
 
             finally:
-                with open(config_file, 'w') as f:
-                    json.dump(config, f, indent=2, sort_keys=True, separators=(',', ': '))
+                if self.__parent:
+                    self = self.__parent[0]
+                with open(self.__config_file, 'w') as f:
+                    json.dump(self, f, indent=2, sort_keys=True, separators=(',', ': '))
 
         return _wrapper
 
-    def __init__(self, **kwargs):
-        super(Configuration, self).__init__(self.factory, **kwargs)
-
-    @save_config
-    def __setitem__(self, key, value):
-        super(Configuration, self).__setitem__(key, value)
-
-    def __getitem__(self, key):
-        return super(Configuration, self).__getitem__(key)
-
-    @save_config
-    def __delitem__(self, key):
-        super(Configuration, self).__delitem__(key)
-
-    def __repr__(self):
-        return json.dumps(self, indent=2, sort_keys=True, separators=(',', ': '))
-
-    @staticmethod
-    def factory():
+    def factory(self):
         """
         Lazy load child instance of self.
 
         :return:
         """
-        return Configuration()
+        return ConfigObject(config_file=self.__config_file, depth=1)
+
+    @classmethod
+    def new(cls, *obj, **kwargs):
+        self = cls(config_file=kwargs['config_file'], parent=kwargs['parent'])
+        self.update(*obj)
+        return self
+
+    def __init__(self, config_file=None, parent=0, **kwargs):
+        self.__parent = parent
+        self.__config_file = config_file
+        super(ConfigObject, self).__init__(self.factory, **kwargs)
+
+    @save_config
+    def __setitem__(self, key, value):
+        super(ConfigObject, self).__setitem__(key, value)
+        return self
+
+    @save_config
+    def __delitem__(self, key):
+        super(ConfigObject, self).__delitem__(key)
+        return self
+
+    @save_config
+    def __getitem__(self, key):
+        return super(ConfigObject, self).__getitem__(key)
+
+
+    def __repr__(self):
+
+        return json.dumps(self) if not pprint else self.pformat()
+
+    def pformat(self):
+        return json.dumps(self, indent=2, sort_keys=True, separators=(',', ': '))
+
