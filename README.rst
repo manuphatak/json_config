@@ -1,14 +1,14 @@
 ===========
 json_config
 ===========
-.. image:: https://pypip.in/status/json_config/badge.svg
+.. image:: https://img.shields.io/badge/Status-Beta-yellow.svg
     :target: https://pypi.python.org/pypi/json_config/
     :alt: Development Status
 
 .. image:: https://travis-ci.org/bionikspoon/json_config.svg?branch=develop
     :target: https://travis-ci.org/bionikspoon/json_config
 
-.. image:: https://pypip.in/version/json_config/badge.svg?branch=develop
+.. image:: https://img.shields.io/pypi/v/json_config.svg
     :target: https://pypi.python.org/pypi/json_config?branch=develop
 
 .. image:: https://coveralls.io/repos/bionikspoon/json_config/badge.svg?branch=develop

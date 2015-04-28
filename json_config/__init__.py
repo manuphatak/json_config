@@ -4,6 +4,7 @@
 ===========
 JSON Config
 ===========
+
 A convenience utility for working with json config files.
 
 >>> import json_config
