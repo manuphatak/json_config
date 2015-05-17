@@ -6,9 +6,9 @@ Tests for `configuration` module.
 import json
 from os.path import dirname, join
 import shutil
+from mock import Mock
 
 import pytest
-
 
 test_dir = dirname(__file__)
 
@@ -24,9 +24,20 @@ def config_file(tmpdir):
 
 @pytest.fixture
 def config(config_file):
+    from json_config import connect
+
+    return connect(config_file)
+
+
+@pytest.fixture
+def mock_write_file(monkeypatch):
     from json_config import configuration
 
-    return configuration.connect(config_file)
+    mock_write = Mock()
+    # noinspection PyProtectedMember
+    mock_write.side_effect = configuration.ConfigObject._write_file
+    monkeypatch.setattr(configuration.ConfigObject, '_write_file', mock_write)
+    return mock_write
 
 
 def test_config_file_fixture(config_file):
@@ -34,11 +45,8 @@ def test_config_file_fixture(config_file):
     assert json_data['test'] == 'success'
 
 
-def test_loads_json_file_returns_dict_like_obj(config, tmpdir):
-    from json_config import configuration
-
+def test_loads_json_file_returns_dict_like_obj(config):
     assert config['test'] == 'success'
-    # assert configuration.config_file == tmpdir.join('sample_config.json').strpath
 
 
 def test_abc_magic_methods_length():
@@ -94,6 +102,8 @@ def test_save_on_delete(config, config_file):
 
 def test_saves_on_child_set(config, config_file):
     config['cat_3']['sub_2'] = 'test_success'
+    assert config['cat_3']['sub_2'] == 'test_success'
+
     expected = json.load(open(config_file))
     assert expected['cat_3']['sub_2'] == 'test_success'
 
@@ -114,19 +124,26 @@ def test_create_new_json_file(tmpdir):
 
     assert actual == dict(config)
 
+
 # def test_loads_array_in_object(config):
 #     print config['cat_4'][0]
 #     assert 0
 
-@pytest.mark.skipif
-def test_automatically_handles_objects_nested_in_list(config):
-    config['cat_4'][0]['test']['1']['2']['3'][0] = 'successful 0'
-    config['cat_4'][0]['test']['1']['2']['3'][1] = 'successful 1'
-    # print config['cat_4']
-    assert config['cat_4'][0]['test']['1']['2']['3'] == ['successful 0', 'successful 1']
+# @pytest.mark.skipif
+# def test_automatically_handles_objects_nested_in_list(config):
+#     config['cat_4'][0]['test']['1']['2']['3'][0] = 'successful 0'
+#     config['cat_4'][0]['test']['1']['2']['3'][1] = 'successful 1'
+#     # print config['cat_4']
+#     assert config['cat_4'][0]['test']['1']['2']['3'] == ['successful 0',
+#                                                          'successful 1']
+
+def test_throws_error_if_nesting_lists_and_dicts(config):
+    pass
+
 
 def test_multiple_configs(tmpdir):
     import json_config
+
     a = json_config.connect(tmpdir.join('unique_file_a.json').strpath)
     b = json_config.connect(tmpdir.join('unique_file_b.json').strpath)
 
@@ -144,4 +161,19 @@ def test_multiple_configs(tmpdir):
     assert b_actual['test'] == 'B success'
 
 
+def test_save_config_is_only_called_once(config, config_file, mock_write_file):
+    config['not a test'] = 'mildly pass'
+    expected = json.load(open(config_file))
 
+    assert expected['not a test'] == 'mildly pass'
+    assert mock_write_file.call_count == 1
+
+
+def test_save_config_is_only_called_once_for_nested_set(config,
+                                                        mock_write_file):
+    assert mock_write_file.call_count == 0
+    config['cat_4'][0]['test']['1']['2']['3'][0] = 'successful 0'
+
+    assert config['cat_4'][0]['test']['1']['2']['3'][0] == 'successful 0'
+
+    assert mock_write_file.call_count == 1

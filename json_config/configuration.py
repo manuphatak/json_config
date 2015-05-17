@@ -10,51 +10,34 @@ from collections import defaultdict
 pprint = True
 
 
-def connect(config_file):
-    """
-    Connect to a json config file.
-
-    Returns a python dict-like object.  Automatically syncs with the file.
-    Automatically handles  nested data.
-
-    :param str config_file: String path pointing to json file.
-    :return: Dictionary like python object.
-    """
-    config = ConfigObject(config_file=config_file)
-    json_hook = partial(ConfigObject.new, config_file=config_file, parent=[config])
-    try:
-        config.update(json.load(open(config_file), object_hook=json_hook))
-    except IOError:
-        with open(config_file, 'w') as f:  # open + close required for pypy
-            f.close()
-
-    return config
-
-
 class ConfigObject(defaultdict):
-    __parent = None
+    __container = {}
 
-    def save_config(*func_args):
+    def save_config(*method_arguments):
         """
-        Decorator.  Write the config file after execution.
+        Decorator.  Write the config file after execution if is parent node
+        and is changed.
 
-        :param func_args: a hack for method decorators.
+        :param method_arguments: a hack for method decorators.
         :return: decorated method
         """
-        func = func_args[-1]
+        function = method_arguments[-1]
 
-        @wraps(func)
+        @wraps(function)
         def _wrapper(self, *args, **kwargs):
-            base = self.__parent[0] if self.__parent else self
-            base_hash = hash(self.pformat(base))
+            """Set state. Continue.  Check state for changes.  Save."""
+            before_hash = hash(self.__container)
             try:
-                return func(self, *args, **kwargs)
+                return function(self, *args, **kwargs)
 
             finally:
-                if not base_hash == hash(self.pformat(base)):
+                after_hash = hash(self.__container)
 
-                    with open(self.__config_file, 'w') as f:
-                        f.write(repr(base))
+                has_changed = not before_hash == after_hash
+                is_parent = after_hash == hash(self) and self.__config_file
+
+                if has_changed and is_parent:
+                    self._write_file(self.__config_file, repr(self))
 
         return _wrapper
 
@@ -64,20 +47,57 @@ class ConfigObject(defaultdict):
 
         :return:
         """
-        return ConfigObject(config_file=self.__config_file)
+        return ConfigObject.child_node(parent=self.__container)
 
     @staticmethod
     def pformat(obj):
+        """
+        Pretty Print JSON output.
+
+        :param obj:
+        :return:
+        """
         return json.dumps(obj, indent=2, sort_keys=True, separators=(',', ': '))
 
+    @staticmethod
+    def _write_file(config_file, content):  # extracted for testing
+        with open(config_file, 'w') as f:
+            f.write(content)
+
     @classmethod
-    def new(cls, *obj, **kwargs):
-        self = cls(config_file=kwargs['config_file'], parent=kwargs['parent'])
+    def child_node(cls, *obj, **kwargs):
+        self = cls(parent=kwargs['parent'])
         self.update(*obj)
         return self
 
-    def __init__(self, config_file=None, parent=0, **kwargs):
-        self.__parent = parent
+    @classmethod
+    def parent_node(cls, **kwargs):
+        self = cls(config_file=kwargs['config_file'], parent=False)
+        return self
+
+    @classmethod
+    def connect(cls, config_file):
+        """
+        Connect to a json config file.
+
+        Returns a python dict-like object.  Automatically syncs with the file.
+        Automatically handles  nested data.
+
+        :param str config_file: String path pointing to json file.
+        :return: Dictionary like python object.
+        """
+        self = cls.parent_node(config_file=config_file)
+        json_hook = partial(cls.child_node, parent=self)
+        try:
+            self.update(json.load(open(config_file), object_hook=json_hook))
+        except IOError:
+            with open(config_file, 'w') as f:  # open + close required for pypy
+                f.close()
+
+        return self
+
+    def __init__(self, parent, config_file=None, **kwargs):
+        self.__container = (parent or self)
         self.__config_file = config_file
         super(ConfigObject, self).__init__(self.factory, **kwargs)
 
@@ -96,5 +116,10 @@ class ConfigObject(defaultdict):
         return super(ConfigObject, self).__getitem__(key)
 
     def __repr__(self):
-
         return json.dumps(self) if not pprint else self.pformat(self)
+
+    def __hash__(self):
+        return hash(str(self))
+
+# export
+connect = ConfigObject.connect

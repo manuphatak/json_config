@@ -80,8 +80,6 @@ setup(
         'Topic :: Database',
         'Topic :: Software Development',
         'Topic :: Utilities'
-
-
     ],
 )
 # @:on
