@@ -61,50 +61,84 @@ def test_loads_json_file_returns_dict_like_obj(config):
 
 
 @pytest.mark.skipif
-def test_abc_magic_methods_length():
+def test_it_returns_the_length_of_all_items_including_children():
     # assert len(config) == 10
     pass  # TODO
 
 
-def test_abc_magic_methods_iter(config):
+def test_it_can_be_iterated_on(config):
     iter_config = list(config)
     assert set(iter_config) == {'test', 'cat_1', 'cat_2', 'cat_3', 'cat_4'}
 
 
-def test_abc_magic_methods_getitem(config):
+def test_it_uses_dictionary_syntax_for_get(config):
     assert config['test'] == 'success'
 
 
-def test_abc_magic_methods_setitem(config):
+def test_it_uses_dictionary_syntax_for_set(config):
     config['not a test'] = 'mildly pass'
     assert config['not a test'] == 'mildly pass'
 
 
-def test_abc_magic_methods_delitem(config):
+def test_it_uses_dictionary_syntax_for_set_from_empty(empty_config):
+    empty_config['not a test'] = 'mildly pass'
+    assert empty_config['not a test'] == 'mildly pass'
+
+
+def test_it_uses_dictionary_syntax_for_deletions(config):
     del config['test']
 
     assert config.get('test') is None
 
 
-def test_loaded_children_are_the_correct_type(config):
+def test_nodes_are_being_loaded_into_config_object(config):
     from json_config.configuration import ConfigObject
 
     assert isinstance(config['cat_1'], ConfigObject)
 
 
-def test_set_nested_dict(config):
+def test_it_can_recursively_create_dictionaries(config):
     config['1']['2']['3']['4']['5'] = '6'
     assert config['1']['2']['3']['4']['5'] == '6'
 
 
-def test_save_on_set(config, sample_config_file):
+def test_it_can_recursively_create_dictionaries_from_empty(empty_config):
+    empty_config['1']['2']['3']['4']['5'] = '6'
+    assert empty_config['1']['2']['3']['4']['5'] == '6'
+
+
+def test_it_saves_when_a_value_is_set(config, sample_config_file):
     config['not a test'] = 'mildly pass'
     expected = json.load(open(sample_config_file))
 
     assert expected['not a test'] == 'mildly pass'
 
 
-def test_save_on_delete(config, sample_config_file):
+def test_it_saves_when_a_value_is_set_from_empty(empty_config,
+                                                 empty_config_file):
+    empty_config['not a test'] = 'mildly pass'
+    expected = json.load(open(empty_config_file))
+
+    assert expected['not a test'] == 'mildly pass'
+
+
+def test_it_saves_only_once_when_a_value_is_set(empty_config, mock_write):
+    assert mock_write.call_count == 0
+    empty_config['not a test'] = 'mildly pass'
+
+    assert mock_write.call_count == 1
+
+
+# @pytest.mark.xfail
+def test_it_only_saves_once_when_a_nested_value_is_set(empty_config,
+                                                       mock_write):
+    assert mock_write.call_count == 0
+    empty_config['cat_4'][0]['test']['1']['2']['3'][0] = 'successful 0'
+
+    assert mock_write.call_count == 1
+
+
+def test_it_saves_when_a_value_is_deleted(config, sample_config_file):
     del config['cat_2']
     expected = json.load(open(sample_config_file))
 
@@ -112,7 +146,7 @@ def test_save_on_delete(config, sample_config_file):
         _ = expected['cat_2']
 
 
-def test_saves_on_child_set(config, sample_config_file):
+def test_it_saves_when_a_nested_value_is_set(config, sample_config_file):
     config['cat_3']['sub_2'] = 'test_success'
     assert config['cat_3']['sub_2'] == 'test_success'
 
@@ -120,7 +154,8 @@ def test_saves_on_child_set(config, sample_config_file):
     assert expected['cat_3']['sub_2'] == 'test_success'
 
 
-def test_saves_on_child_set_empty_config(empty_config, empty_config_file):
+def test_it_saves_when_a_nested_value_is_set_from_empty(empty_config,
+                                                        empty_config_file):
     empty_config['cat_3']['sub_2'] = 'test_success'
     assert empty_config['cat_3']['sub_2'] == 'test_success'
 
@@ -128,13 +163,13 @@ def test_saves_on_child_set_empty_config(empty_config, empty_config_file):
     assert expected['cat_3']['sub_2'] == 'test_success'
 
 
-def test_saves_on_nested_delete(config, sample_config_file):
+def test_it_saves_when_a_nested_value_is_deleted(config, sample_config_file):
     del config['test']
     expected = json.load(open(sample_config_file))
     assert expected.get('test') is None
 
 
-def test_create_new_json_file(tmpdir):
+def test_it_creates_a_new_file(tmpdir):
     from json_config import configuration
 
     config = configuration.connect(tmpdir.join('unique_file.json').strpath)
@@ -145,25 +180,13 @@ def test_create_new_json_file(tmpdir):
     assert actual == dict(config)
 
 
-# def test_loads_array_in_object(config):
-#     print config['cat_4'][0]
-#     assert 0
-
-# @pytest.mark.skipif
-# def test_automatically_handles_objects_nested_in_list(config):
-#     config['cat_4'][0]['test']['1']['2']['3'][0] = 'successful 0'
-#     config['cat_4'][0]['test']['1']['2']['3'][1] = 'successful 1'
-#     # print config['cat_4']
-#     assert config['cat_4'][0]['test']['1']['2']['3'] == ['successful 0',
-#                                                          'successful 1']
-
 @pytest.mark.skipif
-def test_throws_error_if_nesting_lists_and_dicts(config):
+def test_it_throws_error_if_nesting_lists_and_dicts():
     # TODO
     pass
 
 
-def test_multiple_configs(tmpdir, empty_config):
+def test_it_can_handle_multiple_config_files(tmpdir, empty_config):
     import json_config
 
     a = json_config.connect(tmpdir.join('unique_file_a.json').strpath)
@@ -182,18 +205,3 @@ def test_multiple_configs(tmpdir, empty_config):
     assert not a_actual == b_actual
     assert a_actual['test'] == 'A success'
     assert b_actual['test'] == 'B success'
-
-
-def test_save_config_is_only_called_once(config, mock_write):
-    assert mock_write.call_count == 0
-    config['not a test'] = 'mildly pass'
-
-    assert mock_write.call_count == 1
-
-
-@pytest.mark.xfail
-def test_save_config_is_only_called_once_for_nested_set(config, mock_write):
-    assert mock_write.call_count == 0
-    config['cat_4'][0]['test']['1']['2']['3'][0] = 'successful 0'
-
-    assert mock_write.call_count == 1
