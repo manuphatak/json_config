@@ -6,6 +6,9 @@ A convenience utility for working with JSON config files.
 from functools import wraps, partial
 from collections import defaultdict
 import json
+from threading import Timer
+import io
+import threading
 
 pprint = True
 
@@ -31,11 +34,14 @@ class ConfigObject(defaultdict):
         """
         self_ = cls.parent_node(config_file=config_file)
         json_hook = partial(cls.child_node, self_)
+
         try:
-            self_.update(json.load(open(config_file), object_hook=json_hook))
+            self_.block()
+            with io.FileIO(config_file, 'rb') as f:
+                self_.update(json.load(f, object_hook=json_hook))
         except IOError:
-            with open(config_file, 'w') as f:  # open + close required for pypy
-                f.close()
+            with io.FileIO(config_file, 'wb') as f:
+                f.close()  # open + close required for pypy
 
         return self_
 
@@ -43,6 +49,7 @@ class ConfigObject(defaultdict):
     def parent_node(cls, config_file):
         self = cls(config_file=config_file)
         self._container = self
+        self.timer = None
         return self
 
     @classmethod
@@ -65,19 +72,36 @@ class ConfigObject(defaultdict):
         def _wrapper(self, *args, **kwargs):
             """Save after changes."""
             try:
+                if self._container.timer:
+                    self._container.timer.cancel()
+                    print('cancelling thread')
                 return function(self, *args, **kwargs)
 
             finally:
-                self._container.write_file()
+                save = self._container.write_file
+                self._container.timer = Timer(0.001, save)
+                self._container.timer.name = self._container.config_file
+                print('starting thread')
+                self._container.timer.start()
+
+                # self._container.write_file()
 
         return _wrapper
 
     def write_file(self):  # extracted for testing
+        print('executing thread')
+        before = hash(self._container)
         if not self.config_file:
             raise RuntimeError('Missing Config File')
 
-        with open(self.config_file, 'w') as f:
-            f.write(repr(self))
+        with io.open(self.config_file, mode='wb') as f:
+            f.write(repr(self._container))
+            f.close()
+
+        after = hash(self._container)
+
+        if not before == after:
+            raise RuntimeError('Too slow')
 
     @save_config
     def __setitem__(self, key, value):
@@ -112,6 +136,13 @@ class ConfigObject(defaultdict):
 
     def __hash__(self):
         return hash(str(self))
+
+    def block(self):
+        save_config_threads = [thread for thread in threading.enumerate() if
+                               thread.name == self._container.config_file]
+
+        for save_config_thread in save_config_threads:
+            save_config_thread.join()
 
 # export
 connect = ConfigObject.connect
