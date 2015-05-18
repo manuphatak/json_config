@@ -59,6 +59,7 @@ def test_config_file_fixture(sample_config_file):
 def test_loads_json_file_returns_dict_like_obj(config):
     assert config['test'] == 'success'
 
+
 @pytest.mark.skipif
 def test_abc_magic_methods_length():
     # assert len(config) == 10
@@ -162,7 +163,7 @@ def test_throws_error_if_nesting_lists_and_dicts(config):
     pass
 
 
-def test_multiple_configs(tmpdir):
+def test_multiple_configs(tmpdir, empty_config):
     import json_config
 
     a = json_config.connect(tmpdir.join('unique_file_a.json').strpath)
@@ -170,10 +171,11 @@ def test_multiple_configs(tmpdir):
 
     a['test'] = 'A success'
     b['test'] = 'B success'
+    empty_config['unique'] = 'empty_config success'
 
     assert a['test'] == 'A success'
     assert b['test'] == 'B success'
-    assert not a == b
+    assert a is not b
 
     a_actual = json.load(open(tmpdir.join('unique_file_a.json').strpath))
     b_actual = json.load(open(tmpdir.join('unique_file_b.json').strpath))
@@ -187,6 +189,7 @@ def test_save_config_is_only_called_once(config, mock_write):
     config['not a test'] = 'mildly pass'
 
     assert mock_write.call_count == 1
+
 
 @pytest.mark.xfail
 def test_save_config_is_only_called_once_for_nested_set(config, mock_write):
