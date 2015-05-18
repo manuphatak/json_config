@@ -63,27 +63,18 @@ class ConfigObject(defaultdict):
 
         @wraps(function)
         def _wrapper(self, *args, **kwargs):
-            """Set state. Continue.  Check state for changes.  Save."""
-            # before_hash = hash(self._container)
+            """Save after changes."""
             try:
                 return function(self, *args, **kwargs)
 
             finally:
-                # after_hash = hash(self._container)
-                #
-                # has_changed = not before_hash == after_hash
-
-                # if has_changed and is_parent:
                 self._container.write_file()
 
         return _wrapper
 
     def write_file(self):  # extracted for testing
-        if not hash(self._container) == hash(self):
-            raise Exception('Not the container')
-
         if not self.config_file:
-            raise Exception('Missing Config File')
+            raise RuntimeError('Missing Config File')
 
         with open(self.config_file, 'w') as f:
             f.write(repr(self))
