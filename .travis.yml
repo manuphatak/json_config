@@ -1,18 +1,23 @@
-# Config file for automatic testing at travis-ci.org
-
 language: python
 
 install:
   - pip install tox --use-mirrors
   - pip install coveralls
 
-env:
-  - TOXENV=py27
-  - TOXENV=py32
-  - TOXENV=py33
-  - TOXENV=py34
-  - TOXENV=pypy
-  - TOXENV=docs
+matrix:
+  include:
+    - python: "2.7"
+      TOXENV=py27
+      TOXENV=docs
+    - python: "3.2"
+      TOXENV=py32
+    - python: "3.3"
+      TOXENV=py33
+    - python: "3.4"
+      TOXENV=py34
+    - python: "pypy"
+      TOXENV=pypy
+
 script:
   - tox -e $TOXENV
   - coverage run --source=json_config setup.py test
