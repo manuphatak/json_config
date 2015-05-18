@@ -6,15 +6,15 @@ Tests for `configuration` module.
 import json
 from os.path import dirname, join
 import shutil
-from mock import Mock
 
+from mock import Mock
 import pytest
 
 test_dir = dirname(__file__)
 
 
 @pytest.fixture
-def config_file(tmpdir):
+def sample_config_file(tmpdir):
     config_asset = join(test_dir, 'sample_assets', 'sample_config.json')
 
     mock_config = tmpdir.join('sample_config.json').strpath
@@ -23,25 +23,36 @@ def config_file(tmpdir):
 
 
 @pytest.fixture
-def config(config_file):
-    from json_config import connect
+def config(sample_config_file):
+    import json_config
 
-    return connect(config_file)
+    return json_config.connect(sample_config_file)
 
 
 @pytest.fixture
-def mock_write_file(monkeypatch):
+def empty_config_file(tmpdir):
+    return tmpdir.join('empty_config.json').strpath
+
+
+@pytest.fixture
+def empty_config(empty_config_file):
+    import json_config
+
+    return json_config.connect(empty_config_file)
+
+
+@pytest.fixture
+def mock_write(monkeypatch):
     from json_config import configuration
 
-    mock_write = Mock()
-    # noinspection PyProtectedMember
-    mock_write.side_effect = configuration.ConfigObject._write_file
-    monkeypatch.setattr(configuration.ConfigObject, '_write_file', mock_write)
-    return mock_write
+    mock = Mock()
+
+    monkeypatch.setattr(configuration.ConfigObject, 'write_file', mock)
+    return mock
 
 
-def test_config_file_fixture(config_file):
-    json_data = json.load(open(config_file))
+def test_config_file_fixture(sample_config_file):
+    json_data = json.load(open(sample_config_file))
     assert json_data['test'] == 'success'
 
 
@@ -85,32 +96,40 @@ def test_set_nested_dict(config):
     assert config['1']['2']['3']['4']['5'] == '6'
 
 
-def test_save_on_set(config, config_file):
+def test_save_on_set(config, sample_config_file):
     config['not a test'] = 'mildly pass'
-    expected = json.load(open(config_file))
+    expected = json.load(open(sample_config_file))
 
     assert expected['not a test'] == 'mildly pass'
 
 
-def test_save_on_delete(config, config_file):
+def test_save_on_delete(config, sample_config_file):
     del config['cat_2']
-    expected = json.load(open(config_file))
+    expected = json.load(open(sample_config_file))
 
     with pytest.raises(KeyError):
         _ = expected['cat_2']
 
 
-def test_saves_on_child_set(config, config_file):
+def test_saves_on_child_set(config, sample_config_file):
     config['cat_3']['sub_2'] = 'test_success'
     assert config['cat_3']['sub_2'] == 'test_success'
 
-    expected = json.load(open(config_file))
+    expected = json.load(open(sample_config_file))
     assert expected['cat_3']['sub_2'] == 'test_success'
 
 
-def test_saves_on_nested_delete(config, config_file):
+def test_saves_on_child_set_empty_config(empty_config, empty_config_file):
+    empty_config['cat_3']['sub_2'] = 'test_success'
+    assert empty_config['cat_3']['sub_2'] == 'test_success'
+
+    expected = json.load(open(empty_config_file))
+    assert expected['cat_3']['sub_2'] == 'test_success'
+
+
+def test_saves_on_nested_delete(config, sample_config_file):
     del config['test']
-    expected = json.load(open(config_file))
+    expected = json.load(open(sample_config_file))
     assert expected.get('test') is None
 
 
@@ -138,7 +157,9 @@ def test_create_new_json_file(tmpdir):
 #                                                          'successful 1']
 
 def test_throws_error_if_nesting_lists_and_dicts(config):
+    # TODO
     pass
+
 
 
 def test_multiple_configs(tmpdir):
@@ -161,19 +182,15 @@ def test_multiple_configs(tmpdir):
     assert b_actual['test'] == 'B success'
 
 
-def test_save_config_is_only_called_once(config, config_file, mock_write_file):
+def test_save_config_is_only_called_once(config, mock_write):
+    assert mock_write.call_count == 0
     config['not a test'] = 'mildly pass'
-    expected = json.load(open(config_file))
 
-    assert expected['not a test'] == 'mildly pass'
-    assert mock_write_file.call_count == 1
+    assert mock_write.call_count == 1
 
 
-def test_save_config_is_only_called_once_for_nested_set(config,
-                                                        mock_write_file):
-    assert mock_write_file.call_count == 0
+def test_save_config_is_only_called_once_for_nested_set(config, mock_write):
+    assert mock_write.call_count == 0
     config['cat_4'][0]['test']['1']['2']['3'][0] = 'successful 0'
 
-    assert config['cat_4'][0]['test']['1']['2']['3'][0] == 'successful 0'
-
-    assert mock_write_file.call_count == 1
+    assert mock_write.call_count == 1
