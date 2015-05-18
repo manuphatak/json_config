@@ -6,8 +6,7 @@ Tests for `configuration` module.
 import json
 from os.path import dirname, join
 import shutil
-import io
-from time import sleep
+# from io import open
 
 from mock import Mock
 import pytest
@@ -164,7 +163,7 @@ def test_it_saves_when_a_value_is_deleted(config, sample_config_file):
     del config['cat_2']
     config.block()
 
-    expected = json.load(io.FileIO(sample_config_file))
+    expected = json.load(open(sample_config_file))
 
     with pytest.raises(KeyError):
         _ = expected['cat_2']

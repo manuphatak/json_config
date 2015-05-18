@@ -7,7 +7,7 @@ from functools import wraps, partial
 from collections import defaultdict
 import json
 from threading import Timer
-import io
+from io import FileIO
 import threading
 
 pprint = True
@@ -37,10 +37,10 @@ class ConfigObject(defaultdict):
 
         try:
             self_.block()
-            with io.FileIO(config_file, 'rb') as f:
+            with FileIO(config_file) as f:
                 self_.update(json.load(f, object_hook=json_hook))
         except IOError:
-            with io.FileIO(config_file, 'wb') as f:
+            with FileIO(config_file, 'w') as f:
                 f.close()  # open + close required for pypy
 
         return self_
@@ -74,14 +74,14 @@ class ConfigObject(defaultdict):
             try:
                 if self._container.timer:
                     self._container.timer.cancel()
-                    print('cancelling thread')
+                    # print('cancelling thread')
                 return function(self, *args, **kwargs)
 
             finally:
                 save = self._container.write_file
                 self._container.timer = Timer(0.001, save)
                 self._container.timer.name = self._container.config_file
-                print('starting thread')
+                # print('starting thread')
                 self._container.timer.start()
 
                 # self._container.write_file()
@@ -89,19 +89,13 @@ class ConfigObject(defaultdict):
         return _wrapper
 
     def write_file(self):  # extracted for testing
-        print('executing thread')
-        before = hash(self._container)
+        # print('executing thread')
         if not self.config_file:
             raise RuntimeError('Missing Config File')
 
-        with io.open(self.config_file, mode='wb') as f:
+        with FileIO(self.config_file, mode='w') as f:
             f.write(repr(self._container))
             f.close()
-
-        after = hash(self._container)
-
-        if not before == after:
-            raise RuntimeError('Too slow')
 
     @save_config
     def __setitem__(self, key, value):
