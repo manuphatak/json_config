@@ -18,9 +18,17 @@
       }
     }
   },
-  "cat_4": [
-    { "cat": "cat value 0" },
-    { "cat": { "nested_list": "nested_list value" } },
-    { "cat": "cat value 2" }
-  ]
+  "cat_4": {
+    "0": {
+      "cat": "cat value 0"
+    },
+    "1": {
+      "cat": {
+        "nested_list": "nested_list value"
+      }
+    },
+    "2": {
+      "cat": "cat value 2"
+    }
+  }
 }
