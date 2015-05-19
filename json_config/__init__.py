@@ -4,6 +4,7 @@
 ===========
 JSON Config
 ===========
+
 A convenience utility for working with json config files.
 
 >>> import json_config
@@ -17,6 +18,6 @@ A convenience utility for working with json config files.
 """
 __author__ = 'Manu Phatak'
 __email__ = 'bionikspoon@gmail.com'
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 
 from .configuration import connect

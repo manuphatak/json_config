@@ -1,10 +1,14 @@
 ===========
 json_config
 ===========
+.. image:: https://img.shields.io/badge/Status-Beta-yellow.svg
+    :target: https://pypi.python.org/pypi/json_config/
+    :alt: Development Status
+
 .. image:: https://travis-ci.org/bionikspoon/json_config.svg?branch=develop
     :target: https://travis-ci.org/bionikspoon/json_config
 
-.. image:: https://pypip.in/version/json_config/badge.svg?branch=develop
+.. image:: https://img.shields.io/pypi/v/json_config.svg
     :target: https://pypi.python.org/pypi/json_config?branch=develop
 
 .. image:: https://coveralls.io/repos/bionikspoon/json_config/badge.svg?branch=develop
@@ -20,10 +24,14 @@ A convenience utility for working with JSON configuration files.
 Features
 --------
 
-* Automatically syncs file on changes
+* Automatically syncs file on changes.
 * Automatically handles complicated nested data structures.
 * Lightweight (<5KB) and Fast.
 * Takes advantage of Python's native dictionary syntax.
+* Tested against python 2.7, 3.2, 3.3, 3.4, and PYPY.
+* Saves silently in the background.
+* Unit Tested with high coverage.
+* Fully documented at https://json-config.readthedocs.org
 
 .. code-block:: python
 
