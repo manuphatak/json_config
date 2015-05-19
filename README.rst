@@ -24,11 +24,14 @@ A convenience utility for working with JSON configuration files.
 Features
 --------
 
-* Automatically syncs file on changes
+* Automatically syncs file on changes.
 * Automatically handles complicated nested data structures.
 * Lightweight (<5KB) and Fast.
 * Takes advantage of Python's native dictionary syntax.
-* Tested against python 2.7, 3.4, and pypy. (2.6, 3.2, 3.3 are in the works)
+* Tested against python 2.7, 3.2, 3.3, 3.4, and PYPY.
+* Saves silently in the background.
+* Unit Tested with high coverage.
+* Fully documented at https://json-config.readthedocs.org
 
 .. code-block:: python
 
