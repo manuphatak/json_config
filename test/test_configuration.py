@@ -6,7 +6,6 @@ Tests for `configuration` module.
 import json
 from os.path import dirname, join
 import shutil
-# from io import open
 
 from mock import Mock
 import pytest

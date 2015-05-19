@@ -3,11 +3,11 @@
 """
 A convenience utility for working with JSON config files.
 """
+from __future__ import unicode_literals
 from functools import wraps, partial
 from collections import defaultdict
 import json
 from threading import Timer
-from io import FileIO
 import threading
 
 pprint = True
@@ -37,10 +37,10 @@ class ConfigObject(defaultdict):
 
         try:
             self_.block()
-            with FileIO(config_file) as f:
+            with open(config_file) as f:
                 self_.update(json.load(f, object_hook=json_hook))
         except IOError:
-            with FileIO(config_file, 'w') as f:
+            with open(config_file, 'w') as f:
                 f.close()  # open + close required for pypy
 
         return self_
@@ -93,7 +93,7 @@ class ConfigObject(defaultdict):
         if not self.config_file:
             raise RuntimeError('Missing Config File')
 
-        with FileIO(self.config_file, mode='w') as f:
+        with open(self.config_file, 'w') as f:
             f.write(repr(self._container))
             f.close()
 
