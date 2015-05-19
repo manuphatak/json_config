@@ -3,18 +3,18 @@
 """
 A convenience utility for working with JSON config files.
 """
-from __future__ import unicode_literals
+
+import json
+import threading
 from functools import wraps, partial
 from collections import defaultdict
-import json
-from threading import Timer
-import threading
 
 pprint = True
 
 
 class ConfigObject(defaultdict):
     _container = None
+    """Reference to the parent node"""
 
     def __init__(self, parent=None, config_file=None):
         self.config_file = config_file
@@ -47,6 +47,13 @@ class ConfigObject(defaultdict):
 
     @classmethod
     def parent_node(cls, config_file):
+        """
+        Create a parent node, with special parent properties.
+
+        :param string config_file: Path to JSON file.
+        :return: self.
+        :rtype : ConfigObject
+        """
         self = cls(config_file=config_file)
         self._container = self
         self.timer = None
@@ -54,48 +61,54 @@ class ConfigObject(defaultdict):
 
     @classmethod
     def child_node(cls, parent, *obj):
+        """
+        Create a child node with a reference to the parent.
+
+        :param parent: Reference to the parent node.
+        :param obj: Values to be stored.
+        :return: self
+        :rtype : ConfigObject
+        """
         self = cls(parent=parent)
         self.update(*obj)
         return self
 
     def save_config(*method_arguments):
         """
-        Decorator.  Write the config file after execution if is parent node
-        and is changed.
+        Decorator.  Start the delayed worker to save the file after a series
+        of calls.
 
         :param method_arguments: a hack for method decorators.
         :return: decorated method
         """
         function = method_arguments[-1]
+        """A hack for method decorators"""
 
         @wraps(function)
         def _wrapper(self, *args, **kwargs):
-            """Save after changes."""
+            """Cancel save attempts  until series of requests is complete."""
             try:
                 if self._container.timer:
                     self._container.timer.cancel()
-                    # print('cancelling thread')
                 return function(self, *args, **kwargs)
 
             finally:
                 save = self._container.write_file
-                self._container.timer = Timer(0.001, save)
+                self._container.timer = threading.Timer(0.001, save)
                 self._container.timer.name = self._container.config_file
-                # print('starting thread')
                 self._container.timer.start()
-
-                # self._container.write_file()
 
         return _wrapper
 
-    def write_file(self):  # extracted for testing
-        # print('executing thread')
+    def write_file(self):
+        """
+        Write the JSON config file to disk.
+        """
         if not self.config_file:
             raise RuntimeError('Missing Config File')
 
         with open(self.config_file, 'w') as f:
             f.write(repr(self._container))
-            f.close()
 
     @save_config
     def __setitem__(self, key, value):
@@ -132,6 +145,13 @@ class ConfigObject(defaultdict):
         return hash(str(self))
 
     def block(self):
+        """
+        Block until writing threads are completed.
+
+        This is mostly for internal use and testing.  If you plan to connect
+        to a file being managed to this tool, use this to make sure the file
+        safe to read and write on.
+        """
         save_config_threads = [thread for thread in threading.enumerate() if
                                thread.name == self._container.config_file]
 
