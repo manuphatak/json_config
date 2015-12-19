@@ -4,16 +4,16 @@
 Tests for `configuration` module.
 """
 import json
-from os.path import dirname, join
 import shutil
+from os.path import dirname, join
 
 from mock import Mock
-import pytest
+from pytest import fixture, mark, raises
 
 test_dir = dirname(__file__)
 
 
-@pytest.fixture
+@fixture
 def sample_config_file(tmpdir):
     config_asset = join(test_dir, 'sample_assets', 'sample_config.json')
 
@@ -22,26 +22,26 @@ def sample_config_file(tmpdir):
     return mock_config
 
 
-@pytest.fixture
+@fixture
 def config(sample_config_file):
     import json_config
 
     return json_config.connect(sample_config_file)
 
 
-@pytest.fixture
+@fixture
 def empty_config_file(tmpdir):
     return tmpdir.join('empty_config.json').strpath
 
 
-@pytest.fixture
+@fixture
 def empty_config(empty_config_file):
     import json_config
 
     return json_config.connect(empty_config_file)
 
 
-@pytest.fixture
+@fixture
 def mock_write_file(empty_config):
     write_file = empty_config.write_file
 
@@ -56,7 +56,7 @@ def test_config_file_fixture(sample_config_file):
 
 
 def test_config_file(empty_config_file):
-    with pytest.raises(IOError):
+    with raises(IOError):
         json.load(open(empty_config_file))
 
 
@@ -68,7 +68,7 @@ def test_loads_json_file_returns_dict_like_obj_from_empty(empty_config):
     assert empty_config['test'] == {}
 
 
-@pytest.mark.skipif
+@mark.skipif
 def test_it_returns_the_length_of_all_items_including_children():
     # assert len(config) == 10
     pass  # TODO
@@ -76,7 +76,7 @@ def test_it_returns_the_length_of_all_items_including_children():
 
 def test_it_can_be_iterated_on(config):
     iter_config = list(config)
-    assert set(iter_config) == {'test', 'cat_1', 'cat_2', 'cat_3', 'cat_4'}
+    assert set(iter_config) == set(('test', 'cat_1', 'cat_2', 'cat_3', 'cat_4'))
 
 
 def test_it_uses_dictionary_syntax_for_get(config):
@@ -133,8 +133,7 @@ def test_it_saves_when_a_value_is_set(config, sample_config_file):
     assert expected['not a test'] == 'mildly pass'
 
 
-def test_it_saves_when_a_value_is_set_from_empty(empty_config,
-                                                 empty_config_file):
+def test_it_saves_when_a_value_is_set_from_empty(empty_config, empty_config_file):
     empty_config['not a test'] = 'mildly pass'
     empty_config.block()
     expected = json.load(open(empty_config_file))
@@ -150,7 +149,7 @@ def test_it_saves_only_once_when_a_value_is_set(mock_write_file):
     assert mock_write_file.write_file.call_count == 1
 
 
-# @pytest.mark.xfail
+# @mark.xfail
 def test_it_only_saves_once_when_a_nested_value_is_set(mock_write_file):
     assert mock_write_file.write_file.call_count == 0
     mock_write_file['cat_4'][0]['test']['1']['2']['3'][0] = 'successful 0'
@@ -164,8 +163,8 @@ def test_it_saves_when_a_value_is_deleted(config, sample_config_file):
 
     expected = json.load(open(sample_config_file))
 
-    with pytest.raises(KeyError):
-        _ = expected['cat_2']
+    with raises(KeyError):
+        _ = expected['cat_2']  # noqa
 
 
 def test_it_saves_when_a_nested_value_is_set(config, sample_config_file):
@@ -177,8 +176,7 @@ def test_it_saves_when_a_nested_value_is_set(config, sample_config_file):
     assert expected['cat_3']['sub_2'] == 'test_success'
 
 
-def test_it_saves_when_a_nested_value_is_set_from_empty(empty_config,
-                                                        empty_config_file):
+def test_it_saves_when_a_nested_value_is_set_from_empty(empty_config, empty_config_file):
     empty_config['cat_3']['sub_2'] = 'test_success'
 
     assert empty_config['cat_3']['sub_2'] == 'test_success'
@@ -210,7 +208,7 @@ def test_it_creates_a_new_file(tmpdir):
     assert actual == dict(config)
 
 
-@pytest.mark.skipif
+@mark.skipif
 def test_it_throws_error_if_nesting_lists_and_dicts():
     # TODO
     pass

@@ -6,8 +6,8 @@ A convenience utility for working with JSON config files.
 
 import json
 import threading
-from functools import wraps, partial
 from collections import defaultdict
+from functools import wraps, partial
 
 pprint = True
 
@@ -152,11 +152,11 @@ class ConfigObject(defaultdict):
         to a file being managed to this tool, use this to make sure the file
         safe to read and write on.
         """
-        save_config_threads = [thread for thread in threading.enumerate() if
-                               thread.name == self._container.config_file]
+        save_config_threads = [thread for thread in threading.enumerate() if thread.name == self._container.config_file]
 
         for save_config_thread in save_config_threads:
             save_config_thread.join()
+
 
 # export
 connect = ConfigObject.connect
