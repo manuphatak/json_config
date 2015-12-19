@@ -9,7 +9,7 @@ json_config
     :alt: Latest Version
 
 .. image:: https://img.shields.io/pypi/status/json_config.svg
-    :target: https://pypi.python.org/pypi/json_config/
+:target: https://pypi.python.org/pypi/json_config/
     :alt: Development Status
 
 .. image:: https://travis-ci.org/bionikspoon/json_config.svg?branch=develop
