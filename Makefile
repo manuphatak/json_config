@@ -1,4 +1,5 @@
-.PHONY: clean clean-build clean-pyc clean-test clean-docs lint test test-all coverage coverage github docs builddocs servedocs release dist install register requirements
+.PHONY: clean clean-build clean-pyc clean-test clean-docs lint test test-all coverage coverage github docs builddocs servedocs release dist install develop register requirements sync
+
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
 try:
@@ -30,8 +31,10 @@ help:
 	@echo "release     		package and upload a release"
 	@echo "dist        		package"
 	@echo "install     		install the package to the active Python's site-packages"
+	@echo "develop     		install package in edit mode"
 	@echo "register    		update pypi"
 	@echo "requirements		update and install requirements"
+	@echo "sync        		sync requirements with pip"
 
 clean: clean-build clean-pyc clean-test
 
@@ -68,7 +71,7 @@ test-all: lint
 	tox
 
 coverage:
-	coverage run json_config setup.py test
+	coverage run setup.py test
 	coverage report
 	coverage html
 	$(BROWSER) .htmlcov/index.html
@@ -110,6 +113,9 @@ dist: clean docs
 install: clean
 	python setup.py install
 
+develop: clean
+	python setup.py develop
+
 register:
 	python setup.py register
 
@@ -118,7 +124,8 @@ requirements:
 	pip-compile requirements_dev.in > /dev/null
 	pip-compile requirements.in > /dev/null
 	pip-sync requirements_dev.txt > /dev/null
-	pip install --quiet -r requirements.txt
-	pip wheel --quiet -r requirements_dev.txt
-	pip wheel --quiet -r requirements.txt
 	git diff requirements.txt requirements_dev.txt 2>&1 | tee .requirements.diff
+
+sync:
+	pip install --quiet --upgrade pip-tools
+	pip-sync requirements_dev.txt > /dev/null
