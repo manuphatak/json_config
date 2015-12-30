@@ -110,7 +110,7 @@ def test_automatically_loads_config_file(tmpdir):
     assert auto_load == expected
 
 
-def test_handles_empty_config_file(tmpdir, monkeypatch):
+def test_handles_empty_config_file(tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
 
     class BasicConfig(AutoLoad, AutoSave):

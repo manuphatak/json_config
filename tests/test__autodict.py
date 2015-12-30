@@ -24,22 +24,7 @@ def test_can_be_handle_nested():
     assert sample == {'this': {'is': {'a': {'test': 'success'}}}}
 
 
-def test_knows_its_roots():
-    sample = AutoDict()
 
-    sample['this']['is']['a']['test'] = 'success'
-
-    assert sample['this']._is_root is False
-    assert sample._is_root is True
-
-
-def test_can_find_its_root():
-    sample = AutoDict()
-
-    sample['this']['is']['a']['test'] = 'success'
-
-    assert sample is sample
-    assert sample['this']['is']['a']._root is sample
 
 
 def test_repr():
@@ -108,15 +93,3 @@ def test_setting_an_empty_dict_does_not_break_flow():
     }  # :on
 
     assert sample2 == expected
-
-
-def test_edge_pass_root_as_iterable():
-    sample = AutoDict()
-
-    sample['this']['is']['a']['test'] = 'success'
-
-    expected_obj = {'expected': 'object'}
-
-    sample['this']['is']._root = [expected_obj]
-
-    assert sample['this']['is']._root is expected_obj

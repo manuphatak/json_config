@@ -20,7 +20,7 @@ def pretty():
     return _pretty
 
 
-def test_can_pformat_dict(pretty):
+def test_can_serialize_dict(pretty):
     expected = dedent("""
         {
           "completely": {
@@ -55,7 +55,7 @@ def test_can_pformat_dict(pretty):
     assert pretty.serialize() == expected
 
 
-def test_pformat_with_different_indent(pretty):
+def test_serialize_with_different_indent(pretty):
     expected = dedent("""
         {
             "completely": {
@@ -88,3 +88,11 @@ def test_pformat_with_different_indent(pretty):
         """)[1:-1]
 
     assert pretty.serialize(indent=4) == expected
+
+def test_can_deserialize_json_data():
+    # TODO
+    pass
+
+def test_serializer_sanity():
+    # TODO
+    pass

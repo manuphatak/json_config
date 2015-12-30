@@ -10,8 +10,6 @@ from ._compat import FileNotFoundError
 
 
 class AbstractTraceRoot(with_metaclass(ABCMeta)):  # pragma: no cover
-    _root_ = NotImplemented
-
     @property
     @abstractproperty
     def _is_root(self):
@@ -29,10 +27,17 @@ class AbstractTraceRoot(with_metaclass(ABCMeta)):  # pragma: no cover
 
 
 class AbstractSerializer(with_metaclass(ABCMeta)):  # pragma: no cover
+    @property
+    @abstractproperty
+    def serializer_ext(self):
+        return NotImplemented
 
-    serializer_indent = NotImplemented
-    serializer_sort_keys = NotImplemented
-    serializer_ext = NotImplemented
+    @serializer_ext.setter
+    @abstractproperty
+    def serializer_ext(self, value):
+        _AbstractSerializer = self.__class__
+        raise NotImplementedError(
+            '%s improperly implemented: expecting "serializer_ext" attr/prop to be set' % _AbstractSerializer.__name__)
 
     @abstractmethod
     def deserialize(self, string):
