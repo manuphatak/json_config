@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # coding=utf-8
 import json
-from abc import ABCMeta, abstractproperty, abstractmethod
 from collections import defaultdict
 
+from abc import ABCMeta, abstractproperty, abstractmethod
 from future.utils import with_metaclass
+
+from ._compat import FileNotFoundError
 
 
 class AbstractTraceRoot(with_metaclass(ABCMeta)):
@@ -141,7 +143,7 @@ class PrettyFormatMixin(AbstractPrettyFormat):
         return json.dumps(dict(self), **options)
 
 
-class Connect(PrettyFormatMixin, AutoSyncMixin, AutoDict):
+class connect(PrettyFormatMixin, AutoSyncMixin, AutoDict):  # noqa
     def __init__(self, config_file=None, **kwargs):
         kwargs.setdefault('config_file', config_file)
-        super(Connect, self).__init__(**kwargs)
+        super(connect, self).__init__(**kwargs)

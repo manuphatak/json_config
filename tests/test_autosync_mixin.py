@@ -63,7 +63,7 @@ def test_does_not_save_by_declaring_a_ton_of_unused_keys(auto_save, tmpdir):
     # noinspection PyStatementEffect
     auto_save['this']['is']['a']['test']
 
-    with raises(OSError):
+    with raises(IOError):
         f = open(tmpdir.join(CONFIG).strpath)
         f.close()
 

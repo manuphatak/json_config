@@ -20,3 +20,4 @@ Or, if you have virtualenvwrapper installed::
 **Uninstall**::
 
     $ pip uninstall json_config
+

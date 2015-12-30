@@ -29,8 +29,8 @@ def test_knows_its_roots():
 
     sample['this']['is']['a']['test'] = 'success'
 
-    assert sample['this']._is_root == False
-    assert sample._is_root == True
+    assert sample['this']._is_root is False
+    assert sample._is_root is True
 
 
 def test_can_find_its_root():

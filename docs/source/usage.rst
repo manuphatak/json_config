@@ -11,5 +11,7 @@ To use json_config in a project:
     config = json_config.connect('config.json')
     config['root'] = '/var/www/html/'
 
-    print config['root'] # '/var/www/html/'
-    print config # { "root": "/var/www/html" }
+    print(config['root'])
+    #OUT: '/var/www/html/'
+    connect({'root': '/var/www/html/'})
+    #OUT:  connect({'root': '/var/www/html/'})

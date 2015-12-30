@@ -20,10 +20,10 @@ Features
     >>> import json_config
     >>> config = json_config.connect('categories.json')
     >>> config
-    {}
+    connect({})
     >>> config['comics']['dc']['batman']['antagonists'] = ['Scarecrow', 'The Joker', 'Bane']
     >>> config['comics']['marvel']['ironman']['antagonists'] = 'Ultron'
-    >>> config
+    >>> print(config.pformat())
     {
       "comics": {
         "dc": {
@@ -42,3 +42,4 @@ Features
         }
       }
     }
+

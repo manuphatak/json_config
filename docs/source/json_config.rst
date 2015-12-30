@@ -17,10 +17,10 @@ json_config._compat module
     :undoc-members:
     :show-inheritance:
 
-json_config.configuration module
---------------------------------
+json_config.main module
+-----------------------
 
-.. automodule:: json_config.configuration
+.. automodule:: json_config.main
     :members:
     :undoc-members:
     :show-inheritance:

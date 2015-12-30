@@ -63,8 +63,6 @@ def empty_config(empty_config_file):
 
 @fixture
 def mock_write_file(empty_config):
-    write_file = empty_config.write_file
-
     if hasattr(empty_config, 'save'):
         empty_config.save = empty_config.write_file
     return empty_config
@@ -130,9 +128,10 @@ def test_it_uses_dictionary_syntax_for_deletions_from_empty(empty_config):
 
 @mark.xfail
 def test_nodes_are_being_loaded_into_config_object(config):
-    from json_config.configuration import ConfigObject
+    # from json_config.configuration import ConfigObject
 
-    assert isinstance(config['cat_1'], ConfigObject)
+    # assert isinstance(config['cat_1'], ConfigObject)
+    pass
 
 
 def test_it_can_recursively_create_dictionaries(config):
@@ -220,9 +219,9 @@ def test_it_saves_when_a_nested_value_is_deleted(config, sample_config_file):
 
 
 def test_it_creates_a_new_file(tmpdir):
-    from json_config import configuration
+    from json_config import connect
 
-    config = configuration.connect(tmpdir.join('unique_file.json').strpath)
+    config = connect(tmpdir.join('unique_file.json').strpath)
 
     config['unique'] = 'success'
     config.block()

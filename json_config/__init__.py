@@ -11,15 +11,13 @@ A convenience utility for working with JSON config files.
 >>> config = json_config.connect('test.json')
 >>> config['root'] = '/var/www/html'
 >>> config
-{
-  "root": "/var/www/html"
-}
+connect({'root': '/var/www/html'})
 
 """
 from __future__ import absolute_import
 import logging
 
-from json_config.main import Connect
+from .main import connect
 from ._compat import NullHandler
 
 logging.getLogger(__name__).addHandler(NullHandler())
@@ -28,6 +26,5 @@ __author__ = 'Manu Phatak'
 __email__ = 'bionikspoon@gmail.com'
 __version__ = '1.2.0'
 
-connect = Connect
 
 __all__ = ['connect']
