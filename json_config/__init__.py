@@ -19,6 +19,7 @@ A convenience utility for working with JSON config files.
 from __future__ import absolute_import
 import logging
 
+from json_config.main import Connect
 from ._compat import NullHandler
 
 logging.getLogger(__name__).addHandler(NullHandler())
@@ -27,6 +28,6 @@ __author__ = 'Manu Phatak'
 __email__ = 'bionikspoon@gmail.com'
 __version__ = '1.2.0'
 
-from .configuration import connect
+connect = Connect
 
 __all__ = ['connect']

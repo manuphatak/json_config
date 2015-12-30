@@ -7,7 +7,7 @@ from collections import defaultdict
 from future.utils import with_metaclass
 
 
-class TraceRootAbstract(with_metaclass(ABCMeta)):
+class AbstractTraceRoot(with_metaclass(ABCMeta)):
     _root_ = NotImplemented
 
     @property
@@ -26,7 +26,7 @@ class TraceRootAbstract(with_metaclass(ABCMeta)):
         pass
 
 
-class PrettyFormatAbstract(with_metaclass(ABCMeta)):
+class AbstractPrettyFormat(with_metaclass(ABCMeta)):
     pformat_indent = NotImplemented
     pformat_sort_keys = NotImplemented
 
@@ -35,7 +35,7 @@ class PrettyFormatAbstract(with_metaclass(ABCMeta)):
         pass
 
 
-class SaveFileAbstract(with_metaclass(ABCMeta)):
+class AbstractSaveFile(with_metaclass(ABCMeta)):
     config_file = NotImplemented
 
     @abstractmethod
@@ -43,7 +43,7 @@ class SaveFileAbstract(with_metaclass(ABCMeta)):
         pass
 
 
-class TraceRootMixin(TraceRootAbstract):
+class TraceRootMixin(AbstractTraceRoot):
     @property
     def _is_root(self):
         return self._root is self
@@ -95,7 +95,7 @@ class AutoDict(TraceRootMixin, defaultdict):
         return repr(dict(self))
 
 
-class AutoSyncMixin(SaveFileAbstract, TraceRootAbstract, PrettyFormatAbstract):
+class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractPrettyFormat):
     def __init__(self, *args, **kwargs):
         config_file = kwargs.pop('config_file', None)
         """:type config_file: str|None"""
@@ -103,9 +103,12 @@ class AutoSyncMixin(SaveFileAbstract, TraceRootAbstract, PrettyFormatAbstract):
         if config_file is not None:
             self.config_file = config_file
 
-            with open(config_file) as f:
-                obj = json.load(f)
-                kwargs.setdefault('obj', obj)
+            try:
+                with open(config_file) as f:
+                    obj = json.load(f)
+                    kwargs.setdefault('obj', obj)
+            except FileNotFoundError:
+                pass
 
         super(AutoSyncMixin, self).__init__(*args, **kwargs)
 
@@ -126,7 +129,7 @@ class AutoSyncMixin(SaveFileAbstract, TraceRootAbstract, PrettyFormatAbstract):
         return str(dict(self))
 
 
-class PrettyFormatMixin(PrettyFormatAbstract):
+class PrettyFormatMixin(AbstractPrettyFormat):
     pformat_indent = 2
     pformat_sort_keys = True
 
@@ -136,3 +139,9 @@ class PrettyFormatMixin(PrettyFormatAbstract):
         options.setdefault('separators', (',', ': '))
 
         return json.dumps(dict(self), **options)
+
+
+class Connect(PrettyFormatMixin, AutoSyncMixin, AutoDict):
+    def __init__(self, config_file=None, **kwargs):
+        kwargs.setdefault('config_file', config_file)
+        super(Connect, self).__init__(**kwargs)
