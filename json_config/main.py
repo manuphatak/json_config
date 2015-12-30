@@ -36,8 +36,8 @@ class AbstractSerializer(with_metaclass(ABCMeta)):  # pragma: no cover
     @abstractproperty
     def serializer_ext(self, value):
         _AbstractSerializer = self.__class__
-        raise NotImplementedError(
-            '%s improperly implemented: expecting "serializer_ext" attr/prop to be set' % _AbstractSerializer.__name__)
+        msg = '%s.serializer_ext not implemented. Attribute required'
+        raise NotImplementedError(msg % _AbstractSerializer.__name__)
 
     @abstractmethod
     def deserialize(self, string):
