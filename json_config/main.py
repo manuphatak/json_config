@@ -9,7 +9,7 @@ from future.utils import with_metaclass
 from ._compat import FileNotFoundError
 
 
-class AbstractTraceRoot(with_metaclass(ABCMeta)):
+class AbstractTraceRoot(with_metaclass(ABCMeta)):  # pragma: no cover
     _root_ = NotImplemented
 
     @property
@@ -28,7 +28,7 @@ class AbstractTraceRoot(with_metaclass(ABCMeta)):
         pass
 
 
-class AbstractPrettyFormat(with_metaclass(ABCMeta)):
+class AbstractPrettyFormat(with_metaclass(ABCMeta)):  # pragma: no cover
     pformat_indent = NotImplemented
     pformat_sort_keys = NotImplemented
 
@@ -37,7 +37,7 @@ class AbstractPrettyFormat(with_metaclass(ABCMeta)):
         pass
 
 
-class AbstractSaveFile(with_metaclass(ABCMeta)):
+class AbstractSaveFile(with_metaclass(ABCMeta)):  # pragma: no cover
     config_file = NotImplemented
 
     @abstractmethod

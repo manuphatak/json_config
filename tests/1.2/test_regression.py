@@ -126,12 +126,12 @@ def test_it_uses_dictionary_syntax_for_deletions_from_empty(empty_config):
     assert empty_config.get('test') is None
 
 
-@mark.xfail
-def test_nodes_are_being_loaded_into_config_object(config):
-    # from json_config.configuration import ConfigObject
-
-    # assert isinstance(config['cat_1'], ConfigObject)
-    pass
+# @mark.xfail
+# def test_nodes_are_being_loaded_into_config_object(config):
+#     # from json_config.configuration import ConfigObject
+#
+#     # assert isinstance(config['cat_1'], ConfigObject)
+#     pass
 
 
 def test_it_can_recursively_create_dictionaries(config):

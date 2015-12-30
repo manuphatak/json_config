@@ -30,13 +30,6 @@ def auto_save(tmpdir):
     return _auto_save
 
 
-@fixture
-def prepare_assets(tmpdir):
-    """:type tmpdir: py._path.local.LocalPath"""
-
-    shutil.copytree(dir_tests('sample_assets'), tmpdir.join('sample_assets').strpath)
-
-
 def test_saves_on_setting_leaf(auto_save, tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
     auto_save['this']['is']['a']['test'] = 'success'
@@ -77,6 +70,19 @@ def test_only_saves_once_per_setting_value(auto_save, mocker):
 
     auto_save['completely']['different']['tree']['and']['different']['depth'] = 'hello'
     assert auto_save.save.call_count == 2
+
+
+def test_misusing_manual_save_raises(auto_save):
+    auto_save['this']['is']['a']['test'] = {}
+
+    with raises(RuntimeError):
+        auto_save['this']['is'].save()
+
+@fixture
+def prepare_assets(tmpdir):
+    """:type tmpdir: py._path.local.LocalPath"""
+
+    shutil.copytree(dir_tests('sample_assets'), tmpdir.join('sample_assets').strpath)
 
 
 @mark.usefixtures('prepare_assets')

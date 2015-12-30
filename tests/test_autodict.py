@@ -108,3 +108,15 @@ def test_setting_an_empty_dict_does_not_break_flow():
     }  # :on
 
     assert sample2 == expected
+
+
+def test_edge_pass_root_as_iterable():
+    sample = AutoDict()
+
+    sample['this']['is']['a']['test'] = 'success'
+
+    expected_obj = {'expected': 'object'}
+
+    sample['this']['is']._root = [expected_obj]
+
+    assert sample['this']['is']._root is expected_obj

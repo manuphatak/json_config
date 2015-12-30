@@ -16,16 +16,16 @@ source =
 [report]
 fail_under = 80
 show_missing = True
+omit =
+    json_config/_compat.py
 
 ; exclude_lines =
 ;     (?i)#\s*pragma[:\s]?\s*no\s*cover
 ; include_errors = False
 ; include =
 ;     json_config/
-; omit =
-;     tests/
 ; skip_covered = False
 
 [html]
 directory = .htmlcov
-title = Hangman Coverage Report
+title = json_config coverage report
