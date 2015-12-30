@@ -1,0 +1,281 @@
+{
+    "Archive": {
+        "Algorithms": {
+            "Sorting": {
+                "Correctness and the Loop Invariant": {
+                    "path": "algorithms/arrays-and-sorting/correctness-invariant",
+                    "url": "https://www.hackerrank.com/challenges/correctness-invariant"
+                },
+                "Insertion Sort - Part 1": {
+                    "path": "algorithms/arrays-and-sorting/insertionsort1",
+                    "url": "https://www.hackerrank.com/challenges/insertionsort1"
+                },
+                "Insertion Sort - Part 2": {
+                    "path": "algorithms/arrays-and-sorting/insertionsort2",
+                    "url": "https://www.hackerrank.com/challenges/insertionsort2"
+                },
+                "Quicksort 1 - Partition": {
+                    "path": "algorithms/arrays-and-sorting/quicksort1",
+                    "url": "https://www.hackerrank.com/challenges/quicksort1"
+                },
+                "Quicksort 2 - Sorting": {
+                    "path": "algorithms/arrays-and-sorting/quicksort2",
+                    "url": "https://www.hackerrank.com/challenges/quicksort2"
+                }
+            },
+            "Summations and Algebra": {
+                "Sherlock and Queries": {
+                    "path": "algorithms/summations-and-algebra/sherlock-and-queries",
+                    "url": "https://www.hackerrank.com/challenges/sherlock-and-queries"
+                }
+            },
+            "Warmup": {
+                "Solve me first": {
+                    "path": "algorithms/warmup/solve-me-first",
+                    "url": "https://www.hackerrank.com/challenges/solve-me-first"
+                },
+                "Solve me second": {
+                    "path": "algorithms/warmup/solve-me-second",
+                    "url": "https://www.hackerrank.com/challenges/solve-me-second"
+                }
+            }
+        }
+    },
+    "Current": {
+        "model": {
+            "_data": {
+                "acm_forum": false,
+                "checker_program": null,
+                "custom": false,
+                "custom_language": null,
+                "difficulty": 0.327034517510708,
+                "difficulty_rating": 4,
+                "explanation": " ",
+                "input_format": " ",
+                "leaderboard_out_of_sync": false,
+                "no_compile_test": false,
+                "no_custom_case": false,
+                "no_process": false,
+                "output_format": " ",
+                "precision_check": false,
+                "problem_statement": "Watson gives Sherlock an array $A$ of $N$ elements and two arrays $B$ and $C$, of $M$ elements each. Then he asks Sherlock to perform the following program:\n\n    for i = 1 to M do\n        for j = 1 to N do\n            if j % B[i] == 0 then\n                A[j] = A[j] * C[i]\n            endif\n        end do\n    end do\n\nThis code needs to be optimized. Can you help Sherlock and tell him the resulting array $A$? You should print all the array elements modulo $(10^9 + 7)$.\n          \n**Input Format**     \nThe first line contains two integer, $N$ and $M$. The next line contains $N$ integers, the elements of array $A$. The last two lines contain $M$ integers each, the elements of array $B$ and $C$, respectively.\n\n**Output Format**     \nPrint $N$ space-separated integers, the elements of array $A$ after performing the program modulo $(10^9 + 7)$.\n\n**Constraints**  \n$1 \\le N, M \\le 10^5$   \n$1 \\le B[i] \\le N$   \n$1 \\le A[i], C[i] \\le 10^5$\n\n**Sample Input**\n\n\t4 3\n\t1 2 3 4\n\t1 2 3\n\t13 29 71\n    \n**Sample Output**\n\n\t13 754 2769 1508",
+                "public_solutions": true,
+                "public_test_cases": true,
+                "require_unlock": true,
+                "sample_input": " ",
+                "sample_output": " ",
+                "solved_score": 0.5,
+                "submit_disabled": false
+            },
+            "active": true,
+            "auth_key": "25d2fb52-9c83-43dd-b051-ed0216cd631f",
+            "available_translations": [
+                {
+                    "body": "Watson\u7ed9\u4e86Sherlock\u4e00\u4e2a\u95ee\u9898\uff0c\u8bf7\u5e2e\u52a9Sherlock\u89e3\u51b3\u8fd9\u4e2a\u95ee\u9898\u3002    \nWatson\u7ed9\u4e86\u4e00\u4e2a\u6570\u7ec4 $A_1, A_2, \\cdots A_N$\u3002   \n\u4ed6\u4e5f\u7ed9\u4e86\u53e6\u5916\u4e24\u4e2a\u6570\u7ec4 $B_1, B_2 \\cdots B_M$ \u548c $C_1, C_2, \\cdots C_M$\u3002   \n\u7136\u540e\u4ed6\u8981Sherlock\u505a\u5982\u4e0b\u7684\u64cd\u4f5c\uff1a\n\n    for i=1 to M do\n        for j=1 to N do\n            if j%B[i]==0 then\n                A[j]=A[j]*C[i]\n            endif\n        end do\n    end do\n\n          \nSherlock\u5fc5\u987b\u56de\u62a5\u6570\u7ec4 $A$ \u6700\u540e\u7684\u72b6\u6001\u7ed9Watson\u3002    \n\n**\u8f93\u5165\u683c\u5f0f**   \n\u7b2c\u4e00\u884c\u5305\u542b $N$ \u548c $M$\uff0c\u4e0b\u4e00\u884c\u662f $N$ \u4e2a\u5143\u7d20\u4ee3\u8868 $A$\uff0c\u63a5\u4e0b\u6765\u4e24\u884c\u5404\u6709 $M$ \u4e2a\u5143\u7d20\u5206\u522b\u4ee3\u8868\u6570\u7ec4 $B$ \u548c\u6570\u7ec4 $C$\u3002\n\n**\u8f93\u51fa\u683c\u5f0f**    \n\u5728\u4e00\u884c\u4e2d\u8f93\u51fa $N$ \u4e2a\u6570\uff0c\u4ee3\u8868\u6570\u7ec4 $A$ \u6700\u540e\u7684\u72b6\u6001\u3002\u8f93\u51fa $A$ \u4e2d\u7684\u6bcf\u4e2a\u5143\u7d20\u5bf9 $(10^9 + 7)$ \u53d6\u4f59\u7684\u7ed3\u679c\u3002\n\n**\u7ea6\u675f\u6761\u4ef6\uff1a**    \n$1 \\le N,M \\le 10^5$   \n$1 \\le B[i] \\le N$   \n$1 \\le A[i],C[i] \\le 10^5$    \n\n**\u8f93\u5165\u6837\u4f8b\uff1a**   \n\n\t4 3\n\t1 2 3 4\n\t1 2 3\n\t13 29 71\n    \n**\u8f93\u51fa\u6837\u4f8b\uff1a**   \n\n\t13 754 2769 1508\t",
+                    "body_html": "<div class='msB'><p><strong>Problem Statement</strong></p></div><div class='msB'><p>Watson\u7ed9\u4e86Sherlock\u4e00\u4e2a\u95ee\u9898\uff0c\u8bf7\u5e2e\u52a9Sherlock\u89e3\u51b3\u8fd9\u4e2a\u95ee\u9898\u3002 <br>\nWatson\u7ed9\u4e86\u4e00\u4e2a\u6570\u7ec4 $A_1, A_2, \\cdots A_N$\u3002 <br>\n\u4ed6\u4e5f\u7ed9\u4e86\u53e6\u5916\u4e24\u4e2a\u6570\u7ec4 $B_1, B_2 \\cdots B_M$ \u548c $C_1, C_2, \\cdots C_M$\u3002 <br>\n\u7136\u540e\u4ed6\u8981Sherlock\u505a\u5982\u4e0b\u7684\u64cd\u4f5c\uff1a</p>\n\n<pre><code>for i=1 to M do\n    for j=1 to N do\n        if j%B[i]==0 then\n            A[j]=A[j]*C[i]\n        endif\n    end do\nend do\n</code></pre>\n\n<p>Sherlock\u5fc5\u987b\u56de\u62a5\u6570\u7ec4 $A$ \u6700\u540e\u7684\u72b6\u6001\u7ed9Watson\u3002    </p>\n\n<p><strong>\u8f93\u5165\u683c\u5f0f</strong> <br>\n\u7b2c\u4e00\u884c\u5305\u542b $N$ \u548c $M$\uff0c\u4e0b\u4e00\u884c\u662f $N$ \u4e2a\u5143\u7d20\u4ee3\u8868 $A$\uff0c\u63a5\u4e0b\u6765\u4e24\u884c\u5404\u6709 $M$ \u4e2a\u5143\u7d20\u5206\u522b\u4ee3\u8868\u6570\u7ec4 $B$ \u548c\u6570\u7ec4 $C$\u3002</p>\n\n<p><strong>\u8f93\u51fa\u683c\u5f0f</strong> <br>\n\u5728\u4e00\u884c\u4e2d\u8f93\u51fa $N$ \u4e2a\u6570\uff0c\u4ee3\u8868\u6570\u7ec4 $A$ \u6700\u540e\u7684\u72b6\u6001\u3002\u8f93\u51fa $A$ \u4e2d\u7684\u6bcf\u4e2a\u5143\u7d20\u5bf9 $(10^9 + 7)$ \u53d6\u4f59\u7684\u7ed3\u679c\u3002</p>\n\n<p><strong>\u7ea6\u675f\u6761\u4ef6\uff1a</strong> <br>\n$1 \\le N,M \\le 10^5$ <br>\n$1 \\le B[i] \\le N$ <br>\n$1 \\le A[i],C[i] \\le 10^5$    </p>\n\n<p><strong>\u8f93\u5165\u6837\u4f8b\uff1a</strong>   </p>\n\n<pre><code>4 3\n1 2 3 4\n1 2 3\n13 29 71\n</code></pre>\n\n<p><strong>\u8f93\u51fa\u6837\u4f8b\uff1a</strong>   </p>\n\n<pre><code>13 754 2769 1508    \n</code></pre></div>",
+                    "challenge_id": 2452,
+                    "language": "Chinese",
+                    "name": "Sherlock\u548c\u8be2\u95ee",
+                    "preview": "\u5e2e\u52a9Sherlock\u56de\u7b54\u8be2\u95ee",
+                    "problem_statement_fields": {
+                        "explanation": " ",
+                        "input_format": " ",
+                        "output_format": " ",
+                        "problem_statement": "Watson\u7ed9\u4e86Sherlock\u4e00\u4e2a\u95ee\u9898\uff0c\u8bf7\u5e2e\u52a9Sherlock\u89e3\u51b3\u8fd9\u4e2a\u95ee\u9898\u3002    \nWatson\u7ed9\u4e86\u4e00\u4e2a\u6570\u7ec4 $A_1, A_2, \\cdots A_N$\u3002   \n\u4ed6\u4e5f\u7ed9\u4e86\u53e6\u5916\u4e24\u4e2a\u6570\u7ec4 $B_1, B_2 \\cdots B_M$ \u548c $C_1, C_2, \\cdots C_M$\u3002   \n\u7136\u540e\u4ed6\u8981Sherlock\u505a\u5982\u4e0b\u7684\u64cd\u4f5c\uff1a\n\n    for i=1 to M do\n        for j=1 to N do\n            if j%B[i]==0 then\n                A[j]=A[j]*C[i]\n            endif\n        end do\n    end do\n\n          \nSherlock\u5fc5\u987b\u56de\u62a5\u6570\u7ec4 $A$ \u6700\u540e\u7684\u72b6\u6001\u7ed9Watson\u3002    \n\n**\u8f93\u5165\u683c\u5f0f**   \n\u7b2c\u4e00\u884c\u5305\u542b $N$ \u548c $M$\uff0c\u4e0b\u4e00\u884c\u662f $N$ \u4e2a\u5143\u7d20\u4ee3\u8868 $A$\uff0c\u63a5\u4e0b\u6765\u4e24\u884c\u5404\u6709 $M$ \u4e2a\u5143\u7d20\u5206\u522b\u4ee3\u8868\u6570\u7ec4 $B$ \u548c\u6570\u7ec4 $C$\u3002\n\n**\u8f93\u51fa\u683c\u5f0f**    \n\u5728\u4e00\u884c\u4e2d\u8f93\u51fa $N$ \u4e2a\u6570\uff0c\u4ee3\u8868\u6570\u7ec4 $A$ \u6700\u540e\u7684\u72b6\u6001\u3002\u8f93\u51fa $A$ \u4e2d\u7684\u6bcf\u4e2a\u5143\u7d20\u5bf9 $(10^9 + 7)$ \u53d6\u4f59\u7684\u7ed3\u679c\u3002\n\n**\u7ea6\u675f\u6761\u4ef6\uff1a**    \n$1 \\le N,M \\le 10^5$   \n$1 \\le B[i] \\le N$   \n$1 \\le A[i],C[i] \\le 10^5$    \n\n**\u8f93\u5165\u6837\u4f8b\uff1a**   \n\n\t4 3\n\t1 2 3 4\n\t1 2 3\n\t13 29 71\n    \n**\u8f93\u51fa\u6837\u4f8b\uff1a**   \n\n\t13 754 2769 1508\t",
+                        "sample_input": " ",
+                        "sample_output": " "
+                    }
+                },
+                {
+                    "body": "\u0417\u0430\u0434\u0430\u043d\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u044b, \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043a\u043e\u0442\u043e\u0440\u044b\u0445 \u0446\u0435\u043b\u044b\u0435 \u0447\u0438\u0441\u043b\u0430: $A_1, A_2, \\cdots, A_N$; $B_1, B_2, \\cdots, B_M$ \u0438 $C_1, C_2, \\cdots, C_M$.   \n\u0422\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u0432\u044b\u043f\u043e\u043b\u043d\u0438\u0442\u044c \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0441 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u043c $A$:\n\n    for i = 1 to M do\n        for j = 1 to N do\n            if j % B[i] == 0 then\n                A[j] = A[j] * C[i]\n            endif\n        end do\n    end do\n\n\u0412\u044b\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u0442\u043e\u0433\u043e\u0432\u043e\u0435 \u0441\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435 \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $A$ \u043f\u043e \u043c\u043e\u0434\u0443\u043b\u044e $(10^9 + 7)$.\n          \n**\u0424\u043e\u0440\u043c\u0430\u0442 \u0432\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445**     \n\u0412 \u043f\u0435\u0440\u0432\u043e\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b \u0434\u0432\u0430 \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u043b\u0430 $N$ \u0438 $M$. \u0412 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b $N$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $A$. \u0412 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b $M$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $B$. \u0412 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b $M$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $C$. \n\n**\u0424\u043e\u0440\u043c\u0430\u0442 \u0432\u044b\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445**     \n\u0412\u044b\u0432\u0435\u0434\u0438\u0442\u0435 $N$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $A$ \u043f\u043e\u0441\u043b\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f \u043f\u043e \u043c\u043e\u0434\u0443\u043b\u044e $(10^9 + 7)$.\n\n**\u041e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f**  \n$1 \\le N, M \\le 10^5$   \n$1 \\le B[i] \\le N$   \n$1 \\le A[i], C[i] \\le 10^5$\n\n**\u041f\u0440\u0438\u043c\u0435\u0440 \u0432\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445**\n\n\t4 3\n\t1 2 3 4\n\t1 2 3\n\t13 29 71\n    \n**\u041f\u0440\u0438\u043c\u0435\u0440 \u0432\u044b\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445**\n\n\t13 754 2769 1508\t\n    \n\n",
+                    "body_html": "<div class='msB'><p><strong>Problem Statement</strong></p></div><div class='msB'><p>\u0417\u0430\u0434\u0430\u043d\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u044b, \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043a\u043e\u0442\u043e\u0440\u044b\u0445 \u0446\u0435\u043b\u044b\u0435 \u0447\u0438\u0441\u043b\u0430: $A_1, A_2, \\cdots, A_N$; $B_1, B_2, \\cdots, B_M$ \u0438 $C_1, C_2, \\cdots, C_M$. <br>\n\u0422\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u0432\u044b\u043f\u043e\u043b\u043d\u0438\u0442\u044c \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0441 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u043c $A$:</p>\n\n<pre><code>for i = 1 to M do\n    for j = 1 to N do\n        if j % B[i] == 0 then\n            A[j] = A[j] * C[i]\n        endif\n    end do\nend do\n</code></pre>\n\n<p>\u0412\u044b\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u0442\u043e\u0433\u043e\u0432\u043e\u0435 \u0441\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435 \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $A$ \u043f\u043e \u043c\u043e\u0434\u0443\u043b\u044e $(10^9 + 7)$.</p>\n\n<p><strong>\u0424\u043e\u0440\u043c\u0430\u0442 \u0432\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445</strong> <br>\n\u0412 \u043f\u0435\u0440\u0432\u043e\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b \u0434\u0432\u0430 \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u043b\u0430 $N$ \u0438 $M$. \u0412 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b $N$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $A$. \u0412 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b $M$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $B$. \u0412 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b $M$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $C$. </p>\n\n<p><strong>\u0424\u043e\u0440\u043c\u0430\u0442 \u0432\u044b\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445</strong> <br>\n\u0412\u044b\u0432\u0435\u0434\u0438\u0442\u0435 $N$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $A$ \u043f\u043e\u0441\u043b\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f \u043f\u043e \u043c\u043e\u0434\u0443\u043b\u044e $(10^9 + 7)$.</p>\n\n<p><strong>\u041e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f</strong> <br>\n$1 \\le N, M \\le 10^5$ <br>\n$1 \\le B[i] \\le N$ <br>\n$1 \\le A[i], C[i] \\le 10^5$</p>\n\n<p><strong>\u041f\u0440\u0438\u043c\u0435\u0440 \u0432\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445</strong></p>\n\n<pre><code>4 3\n1 2 3 4\n1 2 3\n13 29 71\n</code></pre>\n\n<p><strong>\u041f\u0440\u0438\u043c\u0435\u0440 \u0432\u044b\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445</strong></p>\n\n<pre><code>13 754 2769 1508    \n</code></pre></div>",
+                    "challenge_id": 2452,
+                    "language": "Russian",
+                    "name": "Sherlock and Queries",
+                    "preview": null,
+                    "problem_statement_fields": {
+                        "explanation": " ",
+                        "input_format": " ",
+                        "output_format": " ",
+                        "problem_statement": "\u0417\u0430\u0434\u0430\u043d\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u044b, \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043a\u043e\u0442\u043e\u0440\u044b\u0445 \u0446\u0435\u043b\u044b\u0435 \u0447\u0438\u0441\u043b\u0430: $A_1, A_2, \\cdots, A_N$; $B_1, B_2, \\cdots, B_M$ \u0438 $C_1, C_2, \\cdots, C_M$.   \n\u0422\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u0432\u044b\u043f\u043e\u043b\u043d\u0438\u0442\u044c \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0441 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u043c $A$:\n\n    for i = 1 to M do\n        for j = 1 to N do\n            if j % B[i] == 0 then\n                A[j] = A[j] * C[i]\n            endif\n        end do\n    end do\n\n\u0412\u044b\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u0442\u043e\u0433\u043e\u0432\u043e\u0435 \u0441\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435 \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $A$ \u043f\u043e \u043c\u043e\u0434\u0443\u043b\u044e $(10^9 + 7)$.\n          \n**\u0424\u043e\u0440\u043c\u0430\u0442 \u0432\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445**     \n\u0412 \u043f\u0435\u0440\u0432\u043e\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b \u0434\u0432\u0430 \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u043b\u0430 $N$ \u0438 $M$. \u0412 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b $N$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $A$. \u0412 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b $M$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $B$. \u0412 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0439 \u0441\u0442\u0440\u043e\u043a\u0435 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u044b $M$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $C$. \n\n**\u0424\u043e\u0440\u043c\u0430\u0442 \u0432\u044b\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445**     \n\u0412\u044b\u0432\u0435\u0434\u0438\u0442\u0435 $N$ \u0446\u0435\u043b\u044b\u0445 \u0447\u0438\u0441\u0435\u043b - \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u044b \u043c\u0430\u0441\u0441\u0438\u0432\u0430 $A$ \u043f\u043e\u0441\u043b\u0435 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f \u043f\u043e \u043c\u043e\u0434\u0443\u043b\u044e $(10^9 + 7)$.\n\n**\u041e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f**  \n$1 \\le N, M \\le 10^5$   \n$1 \\le B[i] \\le N$   \n$1 \\le A[i], C[i] \\le 10^5$\n\n**\u041f\u0440\u0438\u043c\u0435\u0440 \u0432\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445**\n\n\t4 3\n\t1 2 3 4\n\t1 2 3\n\t13 29 71\n    \n**\u041f\u0440\u0438\u043c\u0435\u0440 \u0432\u044b\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445**\n\n\t13 754 2769 1508\t\n    \n\n",
+                        "sample_input": " ",
+                        "sample_output": " "
+                    }
+                }
+            ],
+            "body": "Watson gives to Sherlock an array: $A_1, A_2, \\cdots, A_N$. He also gives to Sherlock two other arrays: $B_1, B_2, \\cdots, B_M$ and $C_1, C_2, \\cdots, C_M$.   \nThen Watson asks Sherlock to perform the following program:\n\n    for i = 1 to M do\n        for j = 1 to N do\n            if j % B[i] == 0 then\n                A[j] = A[j] * C[i]\n            endif\n        end do\n    end do\n\nCan you help Sherlock and tell him the resulting array $A$? You should print all the array elements modulo $(10^9 + 7)$.\n          \n**Input Format**     \nThe first line contains two integer numbers $N$ and $M$. The next line contains $N$ integers, the elements of array $A$. The next two lines contains $M$ integers each, the elements of array $B$ and $C$.\n\n**Output Format**     \nPrint $N$ integers, the elements of array $A$ after performing the program modulo $(10^9 + 7)$.\n\n**Constraints**  \n$1 \\le N, M \\le 10^5$   \n$1 \\le B[i] \\le N$   \n$1 \\le A[i], C[i] \\le 10^5$\n\n**Sample Input**\n\n\t4 3\n\t1 2 3 4\n\t1 2 3\n\t13 29 71\n    \n**Sample Output**\n\n\t13 754 2769 1508\t\n    \n",
+            "body_html": "<div class='msB'><p><strong>Problem Statement</strong></p></div><div class='msB'><p>Watson gives Sherlock an array $A$ of $N$ elements and two arrays $B$ and $C$, of $M$ elements each. Then he asks Sherlock to perform the following program:</p>\n\n<pre><code>for i = 1 to M do\n    for j = 1 to N do\n        if j % B[i] == 0 then\n            A[j] = A[j] * C[i]\n        endif\n    end do\nend do\n</code></pre>\n\n<p>This code needs to be optimized. Can you help Sherlock and tell him the resulting array $A$? You should print all the array elements modulo $(10^9 + 7)$.</p>\n\n<p><strong>Input Format</strong> <br>\nThe first line contains two integer, $N$ and $M$. The next line contains $N$ integers, the elements of array $A$. The last two lines contain $M$ integers each, the elements of array $B$ and $C$, respectively.</p>\n\n<p><strong>Output Format</strong> <br>\nPrint $N$ space-separated integers, the elements of array $A$ after performing the program modulo $(10^9 + 7)$.</p>\n\n<p><strong>Constraints</strong> <br>\n$1 \\le N, M \\le 10^5$ <br>\n$1 \\le B[i] \\le N$ <br>\n$1 \\le A[i], C[i] \\le 10^5$</p>\n\n<p><strong>Sample Input</strong></p>\n\n<pre><code>4 3\n1 2 3 4\n1 2 3\n13 29 71\n</code></pre>\n\n<p><strong>Sample Output</strong></p>\n\n<pre><code>13 754 2769 1508\n</code></pre></div>",
+            "can_be_viewed": true,
+            "can_solve": true,
+            "category": "ai",
+            "codechecker_handle": null,
+            "color": null,
+            "company": null,
+            "company_id": null,
+            "compile_and_test": true,
+            "contest_slug": "master",
+            "countdown_time": 0,
+            "created_at": "2014-04-28T12:24:45Z",
+            "custom": false,
+            "custom_case": true,
+            "deleted": false,
+            "difficulty": 0.327034517510708,
+            "difficulty_score": "0.0",
+            "dynamic": true,
+            "epoch_endtime": null,
+            "epoch_starttime": null,
+            "factor": 30,
+            "hacker": {
+                "avatar": "https://hr-avatars.s3.amazonaws.com/bbc82ad9-3904-4f41-8ea5-813675b88ef0/150x150.png",
+                "id": 97299,
+                "is_admin": false,
+                "username": "darkshadows"
+            },
+            "hackos_total": null,
+            "has_ended": false,
+            "has_started": true,
+            "id": 2452,
+            "is_custom": false,
+            "is_editorial_available": true,
+            "is_solution_unlocked": false,
+            "is_text": false,
+            "kind": "code",
+            "languages": [
+                "bash",
+                "c",
+                "cpp",
+                "java",
+                "csharp",
+                "php",
+                "ruby",
+                "python",
+                "perl",
+                "haskell",
+                "clojure",
+                "scala",
+                "lua",
+                "go",
+                "javascript",
+                "erlang",
+                "sbcl",
+                "d",
+                "ocaml",
+                "pascal",
+                "python3",
+                "groovy",
+                "objectivec",
+                "fsharp",
+                "visualbasic",
+                "lolcode",
+                "smalltalk",
+                "tcl",
+                "java8",
+                "r",
+                "racket",
+                "rust",
+                "swift"
+            ],
+            "leaderboard_out_of_sync": false,
+            "leaderboard_out_of_sync_message": null,
+            "max_score": 30,
+            "name": "Sherlock and Queries",
+            "preview": "Help Sherlock in answering Queries",
+            "primary_contest": {
+                "archived": true,
+                "challenges_count": 5,
+                "college_public": null,
+                "contest_message": null,
+                "created_at": "2014-05-08T03:32:11Z",
+                "custom_leaderboard_column_name": null,
+                "description": "101 Hack contest is back with its June edition! It's all about speed, accuracy and efficiency. Inside the contest are 5 challenges. You have exactly 120 minutes to solve them. Every second counts. \n\nHackerRank invites you to join the contest to compete against hackers from across the globe. ",
+                "disable_forum": null,
+                "disable_fsi": null,
+                "ended": true,
+                "endtime": "2014-06-28T15:00:00Z",
+                "epoch_endtime": 1403967600,
+                "epoch_starttime": 1403960400,
+                "expose_stats": null,
+                "has_codesprint_reg_page": null,
+                "has_tracks": null,
+                "hide_difficulty": null,
+                "hide_leaderboard": null,
+                "hide_navigation": null,
+                "hide_submissions": null,
+                "homepage": "",
+                "homepage_background_color": "",
+                "id": 914,
+                "is_rating_updated": true,
+                "kind": "",
+                "leaderboard_backend": null,
+                "leaderboard_format": "",
+                "leaderboard_freeze_time": null,
+                "leaderboard_out_of_sync": null,
+                "leaderboard_out_of_sync_message": null,
+                "leaderboard_type": "country",
+                "name": "101 Hack June'14",
+                "notification": null,
+                "primary_track_id": 3,
+                "public": true,
+                "rating_category": null,
+                "show_participants_info": null,
+                "show_penalty": null,
+                "slug": "101jun14",
+                "started": true,
+                "starttime": "2014-06-28T13:00:00Z",
+                "submitted_hackers_count": 302,
+                "tagline": "5 challenges in 2 hours",
+                "team_event": false,
+                "template_id": 154,
+                "time_left": -23116937.86135173,
+                "timezone": "PST",
+                "track": {
+                    "categories_count": 22,
+                    "challenges_count": 475,
+                    "descriptions": "The true test of problem solving: when one realizes that time and memory aren't infinite.\n",
+                    "dynamic_data": {
+                        "challenges_count": 474,
+                        "maximum_score": 26723.981,
+                        "submissions_count": 211854
+                    },
+                    "hacker_progress": null,
+                    "id": 3,
+                    "name": "Algorithms",
+                    "priority": 5,
+                    "slug": "algorithms"
+                },
+                "updated_at": "2014-10-16T16:06:18Z"
+            },
+            "public_solutions": true,
+            "public_test_cases": true,
+            "real_dynamic": false,
+            "require_unlock": true,
+            "requirements_description": null,
+            "slug": "sherlock-and-queries",
+            "solved_count": 1642,
+            "solved_score": 0.5,
+            "status": null,
+            "submit_disabled": false,
+            "submitted_hackers_count": 4882,
+            "success_ratio": 0.33654437384709984,
+            "time_left": null,
+            "total_count": 4879,
+            "track": {
+                "id": 55,
+                "name": "Summations and Algebra",
+                "slug": "summations-and-algebra",
+                "track_id": 3,
+                "track_name": "Algorithms",
+                "track_slug": "algorithms"
+            },
+            "updated_at": "2015-03-09T17:17:05Z"
+        },
+        "path": "algorithms/summations-and-algebra/sherlock-and-queries",
+        "url": "https://www.hackerrank.com/challenges/sherlock-and-queries"
+    },
+    "Directory": {
+        "assets": "~/code/HackerRankSetup/tests/assets",
+        "root": "~/code/HackerRankSetup/tests",
+        "workspace": "~/code/HackerRankSetup/tests/workspace"
+    },
+    "test": "success"
+}

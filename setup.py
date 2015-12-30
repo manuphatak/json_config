@@ -1,15 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
-
-"""
-Documentation
--------------
-
-The full documentation is at https://json-config.readthedocs.org.
-"""
-import os
-import sys
-import re
+"""The full documentation is at https://json_config.readthedocs.org."""
 
 try:
     from setuptools import setup
@@ -17,10 +8,6 @@ except ImportError:
     from distutils.core import setup
 
 from setuptools.command.test import test as TestCommand
-
-if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
-    sys.exit()
 
 
 class PyTest(TestCommand):
@@ -31,57 +18,60 @@ class PyTest(TestCommand):
 
     def run_tests(self):
         import pytest
+        import sys
 
         errno = pytest.main(self.test_args)
         sys.exit(errno)
 
 
-_version_re = re.compile(r"(?<=^__version__ = \')[\w\.]+(?=\'$)", re.U | re.M)
-with open('json_config/__init__.py', 'rb') as f:
-    version = _version_re.search(f.read().decode('utf-8')).group()
-with open('README.rst') as f:
-    readme = f.read()
-with open('HISTORY.rst') as f:
-    history = f.read().replace('.. :changelog:', '')
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
 
+with open('HISTORY.rst') as history_file:
+    history = history_file.read()
 
-# @:off
-setup(
+# TODO: put package requirements here
+requirements = []
+
+# TODO: put package test requirements here
+test_requirements = ['pytest', 'mock']
+
+setup(  # :off
     name='json_config',
-    version=version,
+    version='1.2.0',
     description='A convenience utility for working with JSON config files.',
-    long_description=readme + '\n\n' + __doc__ + '\n\n' + history,
+    long_description='\n\n'.join([readme, history]),
     author='Manu Phatak',
     author_email='bionikspoon@gmail.com',
     url='https://github.com/bionikspoon/json_config',
-    keywords='json config',
-    packages=[
-        'json_config',
-    ],
-    package_dir={'json_config': 'json_config'},
+    packages=['json_config',],
+    package_dir={'json_config':'json_config'},
     include_package_data=True,
-    install_requires=[
-    ],
+    install_requires=requirements,
     license='MIT',
     zip_safe=False,
     cmdclass={'test': PyTest},
-    tests_require=['pytest', 'mock'],
+    keywords='json_config Manu Phatak',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
+        'Natural Language :: English',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: Implementation :: PyPy',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Database',
         'Topic :: Software Development',
         'Topic :: Utilities'
     ],
-)
-# @:on
+    test_suite='tests',
+    tests_require=test_requirements
+)  # :on
