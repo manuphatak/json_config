@@ -24,8 +24,10 @@ ipython==4.0.1            # via ipdb
 jinja2==2.8               # via sphinx
 markupsafe==0.23          # via jinja2
 mccabe==0.3.1             # via flake8
+mock==1.3.0
 path.py==8.1.2            # via pickleshare
 pathtools==0.1.2          # via watchdog
+pbr==1.8.1                # via mock
 pep8==1.5.7               # via flake8
 pexpect==4.0.1            # via ipython
 pickleshare==0.5          # via ipython
@@ -43,7 +45,7 @@ pytz==2015.7              # via babel
 pyyaml==3.11
 restructuredtext-lint==0.14.0
 simplegeneric==0.8.1      # via ipython
-six==1.10.0               # via cryptography, pip-tools, sphinx
+six==1.10.0               # via cryptography, mock, pip-tools, sphinx
 snowballstemmer==1.2.1    # via sphinx
 sphinx-rtd-theme==0.1.9   # via sphinx
 sphinx==1.3.3

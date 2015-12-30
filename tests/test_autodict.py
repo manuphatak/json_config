@@ -11,7 +11,7 @@ def test_compares_as_ordinary_dictionary():
 
 def test_can_be_initialized_with_value():
     sample = {'this is a': 'test'}
-    result = AutoDict(sample)
+    result = AutoDict(obj=sample)
 
     assert result == sample
 
@@ -81,3 +81,30 @@ def test_values_can_be_updated_without_replacing_the_entire_tree():
     }  # :on
 
     assert sample == expected
+
+
+def test_setting_an_empty_dict_does_not_break_flow():
+    sample1 = AutoDict()
+
+    sample1['this'] = {}
+    sample1['this']['is']['a']['test'] = 'success'
+
+    assert sample1['this']['is']['a']['test'] == 'success'
+
+    sample2 = AutoDict()
+
+    sample2['this'] = {'is another potential': 'edge'}
+    sample2['this']['is']['a']['test'] = 'success'
+
+    expected = {  # :off
+        'this': {
+            'is another potential': 'edge',
+            'is': {
+                'a': {
+                    'test': 'success'
+                }
+            }
+        }
+    }  # :on
+
+    assert sample2 == expected

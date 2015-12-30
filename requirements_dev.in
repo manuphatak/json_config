@@ -19,6 +19,7 @@ tox
 coverage
 pytest
 pytest-mock
+mock
 
 # DOC UTILITIES
 # -------------------------------------
