@@ -30,10 +30,8 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-# TODO: put package requirements here
-requirements = []
+requirements = ['future']
 
-# TODO: put package test requirements here
 test_requirements = ['pytest', 'mock']
 
 setup(  # :off

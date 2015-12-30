@@ -16,6 +16,7 @@ decorator==4.0.6          # via ipython, traitlets
 docutils==0.12            # via restructuredtext-lint, sphinx
 first==2.0.1              # via pip-tools
 flake8==2.5.1
+future==0.15.2
 idna==2.0                 # via cryptography
 ipdb==0.8.1
 ipython-genutils==0.1.0   # via traitlets
