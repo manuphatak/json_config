@@ -133,8 +133,6 @@ class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
             f.write(self.serialize())
 
 
-
-
 class PrettyJSONMixin(AbstractSerializer):
     serializer_indent = 2
     serializer_sort_keys = True
@@ -151,10 +149,10 @@ class PrettyJSONMixin(AbstractSerializer):
 
 
 class AutoConfigBase(AutoSyncMixin, AutoDict):
-    pass
+    def __init__(self, config_file=None, **kwargs):
+        kwargs.setdefault('config_file', config_file)
+        super(AutoConfigBase, self).__init__(**kwargs)
 
 
 class connect(PrettyJSONMixin, AutoConfigBase):  # noqa
-    def __init__(self, config_file=None, **kwargs):
-        kwargs.setdefault('config_file', config_file)
-        super(connect, self).__init__(**kwargs)
+    pass
