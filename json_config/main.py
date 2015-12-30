@@ -29,15 +29,17 @@ class AbstractTraceRoot(with_metaclass(ABCMeta)):  # pragma: no cover
 
 
 class AbstractSerializer(with_metaclass(ABCMeta)):  # pragma: no cover
+
     serializer_indent = NotImplemented
     serializer_sort_keys = NotImplemented
+    serializer_ext = NotImplemented
 
     @abstractmethod
     def deserialize(self, string):
         pass
 
     @abstractmethod
-    def serialize(self):
+    def serialize(self, **options):
         pass
 
 
@@ -79,8 +81,8 @@ class AutoDict(TraceRootMixin, defaultdict):
             self._root = _root
 
     def __missing__(self, key):
-        AutoDict = self.__class__
-        self[key] = value = AutoDict(_root=self._root)
+        _AutoDict = self.__class__
+        self[key] = value = _AutoDict(_root=self._root)
         return value
 
     def __setitem__(self, key, value):
@@ -93,6 +95,7 @@ class AutoDict(TraceRootMixin, defaultdict):
 
         super(AutoDict, self).__setitem__(key, value)
 
+    # noinspection PyMethodOverriding
     def __repr__(self):
         if self._is_root:
             cls_name = self.__class__.__name__
@@ -102,7 +105,7 @@ class AutoDict(TraceRootMixin, defaultdict):
 
 
 class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         config_file = kwargs.pop('config_file', None)
         """:type config_file: str|None"""
 
@@ -117,7 +120,8 @@ class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
             except FileNotFoundError:
                 pass
 
-        super(AutoSyncMixin, self).__init__(*args, **kwargs)
+        # noinspection PyUnresolvedReferences
+        super(AutoSyncMixin, self).__init__(**kwargs)
 
     def __setitem__(self, key, value):
         # noinspection PyUnresolvedReferences
@@ -136,6 +140,7 @@ class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
 class PrettyJSONMixin(AbstractSerializer):
     serializer_indent = 2
     serializer_sort_keys = True
+    serializer_ext = 'json'
 
     def deserialize(self, string):
         return json.loads(string)
@@ -150,9 +155,21 @@ class PrettyJSONMixin(AbstractSerializer):
 
 class AutoConfigBase(AutoSyncMixin, AutoDict):
     def __init__(self, config_file=None, **kwargs):
+        # normalize kwargs
         kwargs.setdefault('config_file', config_file)
         super(AutoConfigBase, self).__init__(**kwargs)
 
 
-class connect(PrettyJSONMixin, AutoConfigBase):  # noqa
-    pass
+def connect(config_file, **kwargs):
+    ext = str(config_file).rsplit('.', 1)[-1]
+    # noinspection PyPep8Naming
+    Serializer = [  # :off
+        cls
+        for cls in AbstractSerializer.__subclasses__()
+        if cls.serializer_ext == ext
+    ][-1]  # :on
+
+    class Connect(Serializer, AutoConfigBase):
+        pass
+
+    return Connect(config_file, **kwargs)
