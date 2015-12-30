@@ -18,7 +18,7 @@ flake8
 tox
 coverage
 pytest
-mock
+pytest-mock
 
 # DOC UTILITIES
 # -------------------------------------

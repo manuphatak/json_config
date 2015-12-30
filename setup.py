@@ -32,7 +32,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = ['future']
 
-test_requirements = ['pytest', 'mock']
+test_requirements = ['pytest', 'pytest-mock']
 
 setup(  # :off
     name='json_config',

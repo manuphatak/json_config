@@ -44,12 +44,40 @@ def test_can_find_its_root():
 
 def test_repr():
     sample1 = AutoDict()
-    assert repr(sample1) == 'AutoDict(dict={})'
+    assert repr(sample1) == 'AutoDict({})'
 
     sample2 = AutoDict({'this is': 'a test'})
-    assert repr(sample2) == "AutoDict(dict={'this is': 'a test'})"
+    assert repr(sample2) == "AutoDict({'this is': 'a test'})"
 
     sample3 = AutoDict()
     sample3['this']['is']['a']['test'] = 'success'
 
     assert repr(sample3['this']['is']['a']) == repr({'test': 'success'})
+
+
+def test_values_can_be_updated_without_replacing_the_entire_tree():
+    sample = AutoDict()
+
+    sample['this']['is']['a']['test'] = 'success'
+    sample['this']['is']['not']['a']['test'] = 'more success'
+    sample['this']['is']['a']['different']['test'] = 'still good'
+
+    expected = {  # :off
+        'this': {
+            'is': {
+                'a': {
+                    'different': {
+                        'test': 'still good'
+                    },
+                    'test': 'success'
+                },
+                'not': {
+                    'a': {
+                        'test': 'more success'
+                    }
+                }
+            }
+        }
+    }  # :on
+
+    assert sample == expected
