@@ -79,7 +79,7 @@ Features
     connect({})
     >>> config['comics']['dc']['batman']['antagonists'] = ['Scarecrow', 'The Joker', 'Bane']
     >>> config['comics']['marvel']['ironman']['antagonists'] = 'Ultron'
-    >>> print(config.pformat())
+    >>> print(config.serialize())
     {
       "comics": {
         "dc": {

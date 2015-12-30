@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # coding=utf-8
+import json
 import shutil
 
 from pytest import fixture, raises, mark
 
-from json_config.main import AutoSyncMixin, AutoDict
+from json_config.main import AutoConfigBase
 from tests.utils import dir_tests
 
 CONFIG = 'config.json'
@@ -13,12 +14,14 @@ SAMPLE_CONFIG = 'sample_assets/sample_config.json'
 SAMPLE_CONFIG_LARGE = 'sample_assets/sample_config.json'
 
 
-class AutoSave(AutoSyncMixin, AutoDict):
-    pass
+class AutoSave(AutoConfigBase):
+    def serialize(self):
+        return str(dict(self))
 
 
-class AutoLoad(AutoSyncMixin, AutoDict):
-    pass
+class AutoLoad(AutoConfigBase):
+    def deserialize(self, string):
+        return json.loads(string)
 
 
 @fixture
@@ -78,6 +81,7 @@ def test_misusing_manual_save_raises(auto_save):
     with raises(RuntimeError):
         auto_save['this']['is'].save()
 
+
 @fixture
 def prepare_assets(tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
@@ -106,10 +110,14 @@ def test_automatically_loads_config_file(tmpdir):
     assert auto_load == expected
 
 
-def test_handles_empty_config_file(tmpdir):
+def test_handles_empty_config_file(tmpdir, monkeypatch):
     """:type tmpdir: py._path.local.LocalPath"""
+
+    class BasicConfig(AutoLoad, AutoSave):
+        pass
+
     empty = tmpdir.join('empty.json')
-    auto_load = AutoLoad(config_file=empty.strpath)
+    auto_load = BasicConfig(config_file=empty.strpath)
 
     assert auto_load == {}
 

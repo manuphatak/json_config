@@ -4,12 +4,12 @@ from textwrap import dedent
 
 from pytest import fixture
 
-from json_config.main import PrettyFormatMixin, AutoDict
+from json_config.main import PrettyJSONMixin, AutoDict
 
 
 @fixture
 def pretty():
-    class Pretty(PrettyFormatMixin, AutoDict):
+    class Pretty(PrettyJSONMixin, AutoDict):
         pass
 
     _pretty = Pretty()
@@ -52,7 +52,7 @@ def test_can_pformat_dict(pretty):
         }
         """)[1:-1]
 
-    assert pretty.pformat() == expected
+    assert pretty.serialize() == expected
 
 
 def test_pformat_with_different_indent(pretty):
@@ -87,4 +87,4 @@ def test_pformat_with_different_indent(pretty):
         }
         """)[1:-1]
 
-    assert pretty.pformat(indent=4) == expected
+    assert pretty.serialize(indent=4) == expected

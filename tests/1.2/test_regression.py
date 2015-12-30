@@ -86,12 +86,6 @@ def test_loads_json_file_returns_dict_like_obj_from_empty(empty_config):
     assert empty_config['test'] == {}
 
 
-@mark.skipif
-def test_it_returns_the_length_of_all_items_including_children():
-    # assert len(config) == 10
-    pass  # TODO
-
-
 def test_it_can_be_iterated_on(config):
     iter_config = list(config)
     assert set(iter_config) == set(('test', 'cat_1', 'cat_2', 'cat_3', 'cat_4'))
@@ -229,12 +223,6 @@ def test_it_creates_a_new_file(tmpdir):
     actual = json.load((open(tmpdir.join('unique_file.json').strpath)))
 
     assert actual == dict(config)
-
-
-@mark.skipif
-def test_it_throws_error_if_nesting_lists_and_dicts():
-    # TODO
-    pass
 
 
 def test_it_can_handle_multiple_config_files(tmpdir, empty_config):

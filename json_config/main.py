@@ -28,12 +28,16 @@ class AbstractTraceRoot(with_metaclass(ABCMeta)):  # pragma: no cover
         pass
 
 
-class AbstractPrettyFormat(with_metaclass(ABCMeta)):  # pragma: no cover
-    pformat_indent = NotImplemented
-    pformat_sort_keys = NotImplemented
+class AbstractSerializer(with_metaclass(ABCMeta)):  # pragma: no cover
+    serializer_indent = NotImplemented
+    serializer_sort_keys = NotImplemented
 
     @abstractmethod
-    def pformat(self):
+    def deserialize(self, string):
+        pass
+
+    @abstractmethod
+    def serialize(self):
         pass
 
 
@@ -97,7 +101,7 @@ class AutoDict(TraceRootMixin, defaultdict):
         return repr(dict(self))
 
 
-class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractPrettyFormat):
+class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
     def __init__(self, *args, **kwargs):
         config_file = kwargs.pop('config_file', None)
         """:type config_file: str|None"""
@@ -107,8 +111,9 @@ class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractPrettyFormat):
 
             try:
                 with open(config_file) as f:
-                    obj = json.load(f)
-                    kwargs.setdefault('obj', obj)
+                    string = f.read()
+                obj = self.deserialize(string)
+                kwargs.setdefault('obj', obj)
             except FileNotFoundError:
                 pass
 
@@ -125,25 +130,31 @@ class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractPrettyFormat):
         if not self._is_root:
             raise RuntimeError('Trying to save from wrong node.')
         with open(self.config_file, 'w') as f:
-            f.write(self.pformat())
-
-    def pformat(self):
-        return str(dict(self))
+            f.write(self.serialize())
 
 
-class PrettyFormatMixin(AbstractPrettyFormat):
-    pformat_indent = 2
-    pformat_sort_keys = True
 
-    def pformat(self, **options):
-        options.setdefault('indent', self.pformat_indent)
-        options.setdefault('sort_keys', self.pformat_sort_keys)
+
+class PrettyJSONMixin(AbstractSerializer):
+    serializer_indent = 2
+    serializer_sort_keys = True
+
+    def deserialize(self, string):
+        return json.loads(string)
+
+    def serialize(self, **options):
+        options.setdefault('indent', self.serializer_indent)
+        options.setdefault('sort_keys', self.serializer_sort_keys)
         options.setdefault('separators', (',', ': '))
 
         return json.dumps(dict(self), **options)
 
 
-class connect(PrettyFormatMixin, AutoSyncMixin, AutoDict):  # noqa
+class AutoConfigBase(AutoSyncMixin, AutoDict):
+    pass
+
+
+class connect(PrettyJSONMixin, AutoConfigBase):  # noqa
     def __init__(self, config_file=None, **kwargs):
         kwargs.setdefault('config_file', config_file)
         super(connect, self).__init__(**kwargs)
