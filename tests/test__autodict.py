@@ -24,9 +24,6 @@ def test_can_be_handle_nested():
     assert sample == {'this': {'is': {'a': {'test': 'success'}}}}
 
 
-
-
-
 def test_repr():
     sample1 = AutoDict()
     assert repr(sample1) == 'AutoDict({})'

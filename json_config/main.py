@@ -172,7 +172,7 @@ def connect(config_file, **kwargs):
         cls
         for cls in AbstractSerializer.__subclasses__()
         if cls.serializer_ext == ext
-    ][-1]  # :on
+    ][-1] or PrettyJSONMixin # :on
 
     class Connect(Serializer, AutoConfigBase):
         pass

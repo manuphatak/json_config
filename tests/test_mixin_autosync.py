@@ -65,7 +65,9 @@ def test_does_not_save_by_declaring_a_ton_of_unused_keys(auto_save, tmpdir):
 
 
 def test_only_saves_once_per_setting_value(auto_save, mocker):
-    mocker.spy(auto_save, 'save')
+    """:type mocker: pytest_mock.MockFixture"""
+
+    mocker.spy(auto_save, u'save')
     assert auto_save.save.call_count == 0
 
     auto_save['this']['is']['a']['test'] = 'success'
