@@ -3,7 +3,7 @@
 import json
 import shutil
 
-from pytest import fixture, raises, mark
+from pytest import fixture, raises
 
 from json_config.main import AutoConfigBase
 from tests.utils import dir_tests
@@ -41,16 +41,11 @@ def test_saves_on_setting_leaf(auto_save, tmpdir):
     assert result == '{"this": {"is": {"a": {"test": "success"}}}}'
 
 
-@mark.skipif
-def test_saves_on_setting_leaf_to_empty_dict(auto_save, tmpdir):
+def test_does_not_save_on_setting_leaf_to_empty_dict(auto_save, tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
     auto_save['this']['is']['a']['test'] = {}
 
-    print(auto_save)
-    with tmpdir.join(CONFIG).open() as f:
-        result = f.read()
-
-    assert result == '{}'
+    assert not tmpdir.join(CONFIG).exists()
 
 
 def test_does_not_save_by_declaring_a_ton_of_unused_keys(auto_save, tmpdir):
@@ -165,8 +160,6 @@ def test_deleting_items_actually_saves_updated_value(auto_save, mocker, tmpdir):
     assert results1 == '{"this": {"is": {"a": {"test": "success"}, "not": {"a": {"test": "more success"}}}}}'
 
     del auto_save['this']['is']['a']['test']
-
-    print(auto_save)
 
     with config.open() as f:
         results2 = f.read()

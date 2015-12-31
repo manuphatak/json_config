@@ -8,7 +8,7 @@ from .contracts import AbstractTraceRoot, AbstractSaveFile, AbstractSerializer
 
 
 class TraceRootMixin(AbstractTraceRoot):
-    # _lock_ = None
+    _lock_ = None
 
     @property
     def _is_root(self):
@@ -38,23 +38,6 @@ class TraceRootMixin(AbstractTraceRoot):
             self._parent_ = value
         else:
             self._parent_ = [value]
-
-            # @contextmanager
-            # def _lock(self):
-            #     if self._root._lock_ is None:
-            #         self._root._lock_ = self
-            #
-            #         try:
-            #             yield self._root._lock_
-            #         finally:
-            #             self._root._lock_ = None
-            #     else:
-            #         print('Not locker')
-            #         print(self)
-            #         try:
-            #             yield self._root._lock_
-            #         finally:
-            #             pass
 
 
 class AutoDict(TraceRootMixin, defaultdict):
@@ -101,20 +84,7 @@ class AutoDict(TraceRootMixin, defaultdict):
     def save(self):
         pass
 
-    # def update(self, E=None, **F):
-    #     if hasattr(E, 'keys') and callable(E.keys):
-    #         for key in E.keys():
-    #             self.__setitem__(key, E[key])
-    #     else:
-    #         for key, value in E.items():
-    #             self.__setitem__(key, value)
-    #
-    #     for key in F:
-    #         self.__setitem__(key, F[key])
-
-
     # noinspection PyMethodOverriding
-
     def __repr__(self):
         if self._is_root:
             cls_name = self.__class__.__name__
@@ -155,10 +125,10 @@ class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
         if not isinstance(self[key], self.__class__):
             self._root.save()
 
-
     def save(self):
         if not self._is_root:
             raise RuntimeError('Trying to save from wrong node.')
+
 
         with open(self.config_file, 'w') as f:
             f.write(self.serialize())
