@@ -15,16 +15,16 @@ connect({'root': '/var/www/html'})
 
 """
 from __future__ import absolute_import
-import logging
-
-from .main import connect
-from ._compat import NullHandler
-
-logging.getLogger(__name__).addHandler(NullHandler())
 
 __author__ = 'Manu Phatak'
 __email__ = 'bionikspoon@gmail.com'
 __version__ = '1.2.0'
 
+import logging
+from ._compat import NullHandler
+
+logging.getLogger(__name__).addHandler(NullHandler())
+
+from .main import connect
 
 __all__ = ['connect']
