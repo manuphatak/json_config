@@ -3,7 +3,7 @@
 import json
 import shutil
 
-from pytest import fixture, raises, mark
+from pytest import fixture, raises
 
 from json_config.main import AutoConfigBase
 from tests.utils import dir_tests
@@ -28,9 +28,7 @@ class AutoLoad(AutoConfigBase):
 def auto_save(tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
 
-    _auto_save = AutoSave(config_file=tmpdir.join(CONFIG).strpath)
-
-    return _auto_save
+    return AutoSave(config_file=tmpdir.join(CONFIG).strpath)
 
 
 def test_saves_on_setting_leaf(auto_save, tmpdir):
@@ -77,23 +75,10 @@ def test_only_saves_once_per_setting_value(auto_save, mocker):
     assert auto_save.save.call_count == 2
 
 
-def test_misusing_manual_save_raises(auto_save):
-    auto_save['this']['is']['a']['test'] = {}
-
-    with raises(RuntimeError):
-        auto_save['this']['is'].save()
-
-
-@fixture
-def prepare_assets(tmpdir):
-    """:type tmpdir: py._path.local.LocalPath"""
-
-    shutil.copytree(dir_tests('sample_assets'), tmpdir.join('sample_assets').strpath)
-
-
-@mark.usefixtures('prepare_assets')
 def test_automatically_loads_config_file(tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
+    # setup
+    shutil.copytree(dir_tests('sample_assets'), tmpdir.join('sample_assets').strpath)
     auto_load = AutoLoad(config_file=tmpdir.join(SAMPLE_CONFIG).strpath)
 
     expected = {
@@ -127,5 +112,14 @@ def test_handles_empty_config_file(tmpdir):
 
     with empty.open() as f:
         results = f.read()
-    print(results)
     assert results == "{'this': {'is': {'a': {'test': 'success'}}}}"
+
+
+def test_deleting_items_only_saves_once():
+    # TODO
+    pass
+
+
+def test_deleting_nested_item_only_saves_once():
+    # TODO
+    pass

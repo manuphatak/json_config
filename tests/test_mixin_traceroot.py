@@ -3,6 +3,7 @@
 from json_config.main import AutoDict
 
 
+# noinspection PyProtectedMember
 def test_knows_its_roots():
     sample = AutoDict()
 
@@ -12,6 +13,7 @@ def test_knows_its_roots():
     assert sample._is_root is True
 
 
+# noinspection PyProtectedMember
 def test_can_find_its_root():
     sample = AutoDict()
 

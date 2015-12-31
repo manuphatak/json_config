@@ -59,6 +59,12 @@ class AutoDict(TraceRootMixin, defaultdict):
 
         return repr(dict(self))
 
+    def __str__(self):
+        return repr(self)
+
+    def __unicode__(self):
+        return repr(self)
+
 
 class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
     def __init__(self, **kwargs):
@@ -116,14 +122,21 @@ class AutoConfigBase(AutoSyncMixin, AutoDict):
         super(AutoConfigBase, self).__init__(**kwargs)
 
 
-def connect(config_file, **kwargs):
-    ext = str(config_file).rsplit('.', 1)[-1]
-    # noinspection PyPep8Naming
-    Serializer = [  # :off
-        cls
-        for cls in AbstractSerializer.__subclasses__()
-        if cls.serializer_ext == ext
-    ][-1] or PrettyJSONMixin # :on
+def connect(config_file, file_type=None, **kwargs):
+    if file_type is None:
+        file_type = str(config_file).rsplit('.', 1)[-1]
+
+    AbstractSerializers = AbstractSerializer.__subclasses__()
+
+    try:
+        # noinspection PyPep8Naming
+        Serializer = [  # :off
+            cls
+            for cls in AbstractSerializers
+            if cls.serializer_ext == file_type
+        ][-1] # :on
+    except IndexError:
+        Serializer = PrettyJSONMixin
 
     class Connect(Serializer, AutoConfigBase):
         pass

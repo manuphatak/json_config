@@ -3,7 +3,7 @@
 from json_config.main import AutoDict
 
 
-def test_compares_as_ordinary_dictionary():
+def test_quacks_like_an_ordinary_dict():
     result = AutoDict()
 
     assert result == {}
@@ -16,7 +16,7 @@ def test_can_be_initialized_with_value():
     assert result == sample
 
 
-def test_can_be_handle_nested():
+def test_automatically_creates_nested_dict():
     sample = AutoDict()
 
     sample['this']['is']['a']['test'] = 'success'
@@ -24,7 +24,7 @@ def test_can_be_handle_nested():
     assert sample == {'this': {'is': {'a': {'test': 'success'}}}}
 
 
-def test_repr():
+def test_repr_offers_some_reasonable_output():
     sample1 = AutoDict()
     assert repr(sample1) == 'AutoDict({})'
 
@@ -90,3 +90,16 @@ def test_setting_an_empty_dict_does_not_break_flow():
     }  # :on
 
     assert sample2 == expected
+
+def test_setting_a_list_does_no_break_flow():
+    # TODO
+    pass
+
+def test_items_can_be_deleted():
+    # TODO
+    pass
+
+def test_deleted_leafs_also_remove_branch():
+    # TODO
+    pass
+

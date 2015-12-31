@@ -23,18 +23,7 @@ class AbstractTraceRoot(with_metaclass(ABCMeta)):  # pragma: no cover
 
 
 class AbstractSerializer(with_metaclass(ABCMeta)):  # pragma: no cover
-    @property
-    @abstractproperty
-    def serializer_ext(self):
-        return NotImplemented
-
-    # noinspection PyUnusedLocal
-    @serializer_ext.setter
-    @abstractproperty
-    def serializer_ext(self, value):
-        _AbstractSerializer = self.__class__
-        msg = '%s.serializer_ext not implemented. Attribute required'
-        raise NotImplementedError(msg % _AbstractSerializer.__name__)
+    serializer_ext = NotImplemented
 
     @abstractmethod
     def deserialize(self, string):
