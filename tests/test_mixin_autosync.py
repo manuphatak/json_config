@@ -3,7 +3,7 @@
 import json
 import shutil
 
-from pytest import fixture, raises
+from pytest import fixture, raises, mark
 
 from json_config.main import AutoConfigBase
 from tests.utils import dir_tests
@@ -16,7 +16,7 @@ SAMPLE_CONFIG_LARGE = 'sample_assets/sample_config.json'
 
 class AutoSave(AutoConfigBase):
     def serialize(self):
-        return str(dict(self))
+        return json.dumps(dict(self), sort_keys=True)
 
 
 class AutoLoad(AutoConfigBase):
@@ -38,17 +38,19 @@ def test_saves_on_setting_leaf(auto_save, tmpdir):
     with tmpdir.join(CONFIG).open() as f:
         result = f.read()
 
-    assert result == "{'this': {'is': {'a': {'test': 'success'}}}}"
+    assert result == '{"this": {"is": {"a": {"test": "success"}}}}'
 
 
+@mark.skipif
 def test_saves_on_setting_leaf_to_empty_dict(auto_save, tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
     auto_save['this']['is']['a']['test'] = {}
 
+    print(auto_save)
     with tmpdir.join(CONFIG).open() as f:
         result = f.read()
 
-    assert result == "{'this': {'is': {'a': {'test': {}}}}}"
+    assert result == '{}'
 
 
 def test_does_not_save_by_declaring_a_ton_of_unused_keys(auto_save, tmpdir):
@@ -62,6 +64,7 @@ def test_does_not_save_by_declaring_a_ton_of_unused_keys(auto_save, tmpdir):
         f.close()
 
 
+# noinspection PyUnresolvedReferences
 def test_only_saves_once_per_setting_value(auto_save, mocker):
     """:type mocker: pytest_mock.MockFixture"""
 
@@ -112,14 +115,68 @@ def test_handles_empty_config_file(tmpdir):
 
     with empty.open() as f:
         results = f.read()
-    assert results == "{'this': {'is': {'a': {'test': 'success'}}}}"
+    assert results == '{"this": {"is": {"a": {"test": "success"}}}}'
 
 
-def test_deleting_items_only_saves_once():
-    # TODO
-    pass
+# noinspection PyUnresolvedReferences
+def test_deleting_items_only_saves_once(auto_save, mocker):
+    """:type mocker: pytest_mock.MockFixture"""
+    mocker.spy(auto_save, u'save')
+
+    auto_save['this']['is']['a']['test'] = 'success'
+
+    auto_save.save.reset_mock()
+    assert auto_save.save.call_count == 0
+
+    del auto_save['this']['is']['a']['test']
+    assert auto_save.save.call_count == 1
 
 
-def test_deleting_nested_item_only_saves_once():
-    # TODO
-    pass
+# noinspection PyUnresolvedReferences
+def test_deleting_nested_item_only_saves_once(auto_save, mocker):
+    """:type mocker: pytest_mock.MockFixture"""
+    mocker.spy(auto_save, u'save')
+
+    auto_save['this']['is']['a']['test'] = 'success'
+    auto_save['this']['is']['not']['a']['test'] = 'more success'
+    auto_save.save.reset_mock()
+    assert auto_save.save.call_count == 0
+
+    del auto_save['this']['is']
+    assert auto_save.save.call_count == 1
+
+
+# noinspection PyUnresolvedReferences
+def test_deleting_items_actually_saves_updated_value(auto_save, mocker, tmpdir):
+    """
+    :type auto_save: AutoSave
+    :type mocker: pytest_mock.MockFixture
+    :type tmpdir: py._path.local.LocalPath
+    """
+    config = tmpdir.join(CONFIG)
+    mocker.spy(auto_save, u'save')
+    auto_save['this']['is']['a']['test'] = 'success'
+    auto_save['this']['is']['not']['a']['test'] = 'more success'
+    auto_save.save.reset_mock()
+    assert auto_save.save.call_count == 0
+
+    with config.open() as f:
+        results1 = f.read()
+    assert results1 == '{"this": {"is": {"a": {"test": "success"}, "not": {"a": {"test": "more success"}}}}}'
+
+    del auto_save['this']['is']['a']['test']
+
+    print(auto_save)
+
+    with config.open() as f:
+        results2 = f.read()
+    assert results2 == '{"this": {"is": {"not": {"a": {"test": "more success"}}}}}'
+    assert auto_save.save.call_count == 1
+    auto_save.save.reset_mock()
+
+    del auto_save['this']['is']
+
+    with config.open() as f:
+        results2 = f.read()
+    assert results2 == '{}'
+    assert auto_save.save.call_count == 1

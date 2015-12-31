@@ -91,15 +91,32 @@ def test_setting_an_empty_dict_does_not_break_flow():
 
     assert sample2 == expected
 
+
 def test_setting_a_list_does_no_break_flow():
     # TODO
     pass
 
+
 def test_items_can_be_deleted():
-    # TODO
-    pass
+    sample1 = AutoDict()
+
+    sample1['this']['is']['a']['test'] = 'success'
+    del sample1['this']['is']['a']['test']
+    assert sample1 == {}
+
+    sample2 = AutoDict()
+
+    sample2['this']['is']['a']['test'] = 'success'
+    sample2['this']['is']['not']['a']['test'] = 'more success'
+    del sample2['this']['is']['a']
+    # :off
+    assert sample2 == {'this': {'is': {'not': {'a': {'test': 'more success'}}}}}  # :on
+
 
 def test_deleted_leafs_also_remove_branch():
-    # TODO
-    pass
+    sample = AutoDict()
 
+    sample['this']['is']['a']['test'] = 'success'
+    sample['this']['is']['not']['a']['test'] = 'more success'
+    del sample['this']['is']
+    assert sample == {}

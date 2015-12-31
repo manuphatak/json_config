@@ -7,7 +7,7 @@ import json
 import shutil
 from functools import partial
 
-from pytest import fixture, mark, raises
+from pytest import fixture, raises
 from warnings import warn
 
 from tests.utils import dir_tests
@@ -117,7 +117,6 @@ def test_it_uses_dictionary_syntax_for_deletions_from_empty(empty_config):
     assert empty_config.get('test') is None
 
 
-@mark.xfail
 def test_nodes_are_being_loaded_into_config_object(config):
     assert isinstance(config['cat_1'], config.__class__)
 
@@ -159,14 +158,13 @@ def test_it_saves_only_once_when_a_value_is_set(empty_config, mocker):
 
 
 def test_it_only_saves_once_when_a_nested_value_is_set(empty_config, mocker):
-    mocker.spy(empty_config, 'write_file')
+    mocker.spy(empty_config, u'write_file')
     assert empty_config.write_file.call_count == 0
     empty_config['cat_4'][0]['test']['1']['2']['3'][0] = 'successful 0'
     empty_config.block()
     assert empty_config.write_file.call_count == 1
 
 
-@mark.xfail
 def test_it_saves_when_a_value_is_deleted(config, sample_config_file):
     del config['cat_2']
     config.block()
@@ -177,7 +175,6 @@ def test_it_saves_when_a_value_is_deleted(config, sample_config_file):
         _ = expected['cat_2']  # noqa
 
 
-@mark.xfail
 def test_it_saves_when_a_nested_value_is_set(config, sample_config_file):
     config['cat_3']['sub_2'] = 'test_success'
     assert config['cat_3']['sub_2'] == 'test_success'
@@ -198,7 +195,6 @@ def test_it_saves_when_a_nested_value_is_set_from_empty(empty_config, empty_conf
     assert expected['cat_3']['sub_2'] == 'test_success'
 
 
-@mark.xfail
 def test_it_saves_when_a_nested_value_is_deleted(config, sample_config_file):
     del config['test']
     config.block()

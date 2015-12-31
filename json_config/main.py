@@ -8,6 +8,8 @@ from .contracts import AbstractTraceRoot, AbstractSaveFile, AbstractSerializer
 
 
 class TraceRootMixin(AbstractTraceRoot):
+    # _lock_ = None
+
     @property
     def _is_root(self):
         return self._root is self
@@ -23,22 +25,56 @@ class TraceRootMixin(AbstractTraceRoot):
         else:
             self._root_ = [value]
 
+    @property
+    def _parent(self):
+        if self._is_root:
+            return False
+
+        return self._parent_[0]
+
+    @_parent.setter
+    def _parent(self, value):
+        if isinstance(value, (list, tuple)):
+            self._parent_ = value
+        else:
+            self._parent_ = [value]
+
+            # @contextmanager
+            # def _lock(self):
+            #     if self._root._lock_ is None:
+            #         self._root._lock_ = self
+            #
+            #         try:
+            #             yield self._root._lock_
+            #         finally:
+            #             self._root._lock_ = None
+            #     else:
+            #         print('Not locker')
+            #         print(self)
+            #         try:
+            #             yield self._root._lock_
+            #         finally:
+            #             pass
+
 
 class AutoDict(TraceRootMixin, defaultdict):
-    def __init__(self, obj=None, _root=None):
+    def __init__(self, obj=None, _root=None, _parent=None, _key=None):
         super(AutoDict, self).__init__()
-
-        if obj is not None:
-            self.update(obj)
 
         if _root is None:
             self._root = self
         else:
             self._root = _root
 
+        self._parent = _parent
+        self._key = _key
+
+        if obj is not None:
+            self.update(obj)
+
     def __missing__(self, key):
         _AutoDict = self.__class__
-        self[key] = value = _AutoDict(_root=self._root)
+        self[key] = value = _AutoDict(_root=self._root, _parent=self, _key=key)
         return value
 
     def __setitem__(self, key, value):
@@ -47,11 +83,38 @@ class AutoDict(TraceRootMixin, defaultdict):
         # convert dicts to AutoDicts
         is_dict = not isinstance(value, _AutoDict) and isinstance(value, dict)
         if is_dict:
-            value = _AutoDict(obj=value, _root=self._root)
+            value = _AutoDict(obj=value, _root=self._root, _parent=self, _key=key)
 
         super(AutoDict, self).__setitem__(key, value)
 
+    def __delitem__(self, key):
+        super(AutoDict, self).__delitem__(key)
+
+        if self._is_root:
+            return self._root.save()
+
+        if self._parent[self._key] == {}:
+            del self._parent[self._key]
+        else:
+            self._root.save()
+
+    def save(self):
+        pass
+
+    # def update(self, E=None, **F):
+    #     if hasattr(E, 'keys') and callable(E.keys):
+    #         for key in E.keys():
+    #             self.__setitem__(key, E[key])
+    #     else:
+    #         for key, value in E.items():
+    #             self.__setitem__(key, value)
+    #
+    #     for key in F:
+    #         self.__setitem__(key, F[key])
+
+
     # noinspection PyMethodOverriding
+
     def __repr__(self):
         if self._is_root:
             cls_name = self.__class__.__name__
@@ -89,12 +152,14 @@ class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
         # noinspection PyUnresolvedReferences
         super(AutoSyncMixin, self).__setitem__(key, value)
 
-        if not isinstance(value, self.__class__):
+        if not isinstance(self[key], self.__class__):
             self._root.save()
+
 
     def save(self):
         if not self._is_root:
             raise RuntimeError('Trying to save from wrong node.')
+
         with open(self.config_file, 'w') as f:
             f.write(self.serialize())
 

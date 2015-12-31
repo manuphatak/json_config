@@ -6,6 +6,8 @@ from future.utils import with_metaclass
 
 
 class AbstractTraceRoot(with_metaclass(ABCMeta)):  # pragma: no cover
+    _key = NotImplemented
+
     @property
     @abstractproperty
     def _is_root(self):
@@ -19,6 +21,16 @@ class AbstractTraceRoot(with_metaclass(ABCMeta)):  # pragma: no cover
     @_root.setter
     @abstractproperty
     def _root(self, value):
+        pass
+
+    @property
+    @abstractproperty
+    def _parent(self):
+        pass
+
+    @_parent.setter
+    @abstractproperty
+    def _parent(self, value):
         pass
 
 
