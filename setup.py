@@ -36,7 +36,7 @@ test_requirements = ['pytest', 'pytest-mock', 'mock']
 
 setup(  # :off
     name='json_config',
-    version='2.0.0',
+    version='2.0.1',
     description='A convenience utility for working with JSON config files.',
     long_description='\n\n'.join([readme, history]),
     author='Manu Phatak',
