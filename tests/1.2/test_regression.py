@@ -4,16 +4,18 @@
 Tests for `configuration` module.
 """
 import json
-import os
 import shutil
 from functools import partial
 
+import os
 from pytest import fixture, raises
 from warnings import warn
+
 
 def dir_tests(*paths):
     dirname = os.path.dirname(__file__)
     return os.path.abspath(os.path.join(dirname, *paths))
+
 
 warn_depreciated = partial(warn, 'Removed after 1.2', DeprecationWarning)
 
