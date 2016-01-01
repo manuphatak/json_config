@@ -4,7 +4,7 @@ python:
   - "3.5"
 
 install:
-  - pip install tox coveralls
+  - pip install tox coveralls pytest
 
 env:
   - TOXENV=py35
