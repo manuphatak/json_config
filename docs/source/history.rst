@@ -19,6 +19,7 @@ Next Release
 - Feature: Reorganized package and tests
 - Fix: Updated doc builds
 - Fix: Readme badge links
+- 2.0.1: Fix: Failed deploy (travis requirements)
 
 
 1.2.0 (2015-05-18)
