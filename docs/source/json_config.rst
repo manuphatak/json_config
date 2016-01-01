@@ -17,6 +17,14 @@ json_config._compat module
     :undoc-members:
     :show-inheritance:
 
+json_config.contracts module
+----------------------------
+
+.. automodule:: json_config.contracts
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 json_config.main module
 -----------------------
 

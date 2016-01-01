@@ -1,3 +1,5 @@
+.. coding=utf-8
+
 Features
 --------
 
@@ -11,7 +13,7 @@ Features
 - Automatically handles complicated nested data structures.
 - Lightweight (<5KB) and Fast.
 - Takes advantage of Python's native dictionary syntax.
-- Tested against python 2.7, 3.2, 3.3, 3.4, and PYPY.
+- Tested against python 2.6, 2.7, 3.3, 3.4, 3.5, and PYPY.
 - Saves silently in the background.
 - Unit Tested with high coverage.
 

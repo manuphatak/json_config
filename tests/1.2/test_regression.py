@@ -20,6 +20,7 @@ def patched_connect(monkeypatch):
     """:type monkeypatch: _pytest.monkeypatch.monkeypatch"""
     from json_config.main import AutoSyncMixin, AutoDict, connect
 
+    # noinspection PyAbstractClass,PyMethodMayBeStatic
     class MockAutoConfigBase(AutoSyncMixin, AutoDict):
         def __init__(self, config_file=None, **kwargs):
             # normalize kwargs
@@ -88,7 +89,7 @@ def test_loads_json_file_returns_dict_like_obj_from_empty(empty_config):
 
 def test_it_can_be_iterated_on(config):
     iter_config = list(config)
-    assert set(iter_config) == {'test', 'cat_1', 'cat_2', 'cat_3', 'cat_4'}
+    assert set(iter_config) == set(['test', 'cat_1', 'cat_2', 'cat_3', 'cat_4'])
 
 
 def test_it_uses_dictionary_syntax_for_get(config):

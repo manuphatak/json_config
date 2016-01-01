@@ -1,3 +1,5 @@
+.. coding=utf-8
+
 Welcome to json_config's documentation!
 =======================================
 
@@ -13,7 +15,7 @@ Contents:
    Contributing <contributing>
    Authors <authors>
    History <history>
-   API Docs <modules>
+   API Docs <json_config>
 
 Feedback
 ========

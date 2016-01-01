@@ -11,7 +11,7 @@ A convenience utility for working with JSON config files.
 >>> config = json_config.connect('test.json')
 >>> config['root'] = '/var/www/html'
 >>> config
-connect({'root': '/var/www/html'})
+Connect({'root': '/var/www/html'})
 
 """
 from __future__ import absolute_import

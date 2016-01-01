@@ -8,6 +8,7 @@ from ._compat import FileNotFoundError
 from .contracts import AbstractTraceRoot, AbstractSaveFile, AbstractSerializer
 
 
+# noinspection PyProtectedMember
 class TraceRootMixin(AbstractTraceRoot):
     _lock_ = None
 
@@ -49,14 +50,14 @@ class TraceRootMixin(AbstractTraceRoot):
         self._root._lock_ = value
 
     @property
-    def _islocked(self):
-        return not self._lock is None
+    def _is_locked(self):
+        return self._lock is not None
 
     @contextmanager
     def lock(self):
         is_lock_owner = False
         try:
-            if not self._islocked:
+            if not self._is_locked:
                 self._lock = self
                 is_lock_owner = True
             yield is_lock_owner
@@ -107,12 +108,16 @@ class AutoDict(TraceRootMixin, defaultdict):
         else:
             self._root.save()
 
+    # noinspection PyPep8Naming
     def update(self, E=None, **F):
         """
         D.update(E, **F) -> None.  Update D from E and F: for k in E: D[k]
                 = E[k]
         (if E has keys else: for (k, v) in E: D[k] = v) then: for k in
                 F: D[k] = F[k]
+
+        :type E: dict
+        :type F: dict
         """
         _AutoDict = self.__class__
 
@@ -125,15 +130,15 @@ class AutoDict(TraceRootMixin, defaultdict):
         with self.lock() as lock_owner:
             # update E
             if hasattr(E, 'keys') and callable(E.keys):
-                for key in E:
-                    update_or_set(key, E[key])
+                for k in E:
+                    update_or_set(k, E[k])
             else:
-                for key, value in E:
-                    update_or_set(key, value)
+                for k, v in E:
+                    update_or_set(k, v)
 
             # update F
-            for key in F:
-                update_or_set(key, F[key])
+            for k in F:
+                update_or_set(k, F[k])
 
             # save if original caller.
             if lock_owner:
@@ -157,6 +162,7 @@ class AutoDict(TraceRootMixin, defaultdict):
         return repr(self)
 
 
+# noinspection PyAbstractClass
 class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
     def __init__(self, **kwargs):
         config_file = kwargs.pop('config_file', None)
@@ -181,7 +187,7 @@ class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
         super(AutoSyncMixin, self).__setitem__(key, value)
 
         is_cls = isinstance(self[key], self.__class__)
-        if not is_cls and not self._islocked:
+        if not is_cls and not self._is_locked:
             self._root.save()
 
     def save(self):
@@ -208,6 +214,7 @@ class PrettyJSONMixin(AbstractSerializer):
         return json.dumps(dict(self), **options)
 
 
+# noinspection PyAbstractClass
 class AutoConfigBase(AutoSyncMixin, AutoDict):
     def __init__(self, config_file=None, **kwargs):
         # normalize kwargs
@@ -215,19 +222,17 @@ class AutoConfigBase(AutoSyncMixin, AutoDict):
         super(AutoConfigBase, self).__init__(**kwargs)
 
 
+# noinspection PyPep8Naming,PyAbstractClass
 def connect(config_file, file_type=None, **kwargs):
     if file_type is None:
         file_type = str(config_file).rsplit('.', 1)[-1]
 
-    AbstractSerializers = AbstractSerializer.__subclasses__()
-
     try:
-        # noinspection PyPep8Naming
         Serializer = [  # :off
             cls
-            for cls in AbstractSerializers
+            for cls in AbstractSerializer.__subclasses__()
             if cls.serializer_ext == file_type
-        ][-1] # :on
+        ][-1]  # :on
     except IndexError:
         Serializer = PrettyJSONMixin
 
