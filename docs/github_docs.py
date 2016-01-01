@@ -15,8 +15,9 @@ Pipeline: routine(`include`, `out_file`)
 """
 from __future__ import print_function
 
-from datetime import datetime
 from functools import partial, reduce
+
+from datetime import datetime
 from os.path import dirname, realpath, join, relpath
 
 
@@ -36,6 +37,8 @@ PROJECT = partial(DOCS, '..')
 # CONSTANTS
 README = PROJECT('README.rst')
 CONTRIBUTING = PROJECT('CONTRIBUTING.rst')
+HISTORY = PROJECT('HISTORY.rst')
+AUTHORS = PROJECT('AUTHORS.rst')
 TODAY = datetime.now().strftime('%A, %B %d, %Y')  # %A, %B %d, %Y -> Friday, December 11, 2015
 FILE_HEADER = '.. START Source defined in %s\n\n'
 FILE_FOOTER = '\n\n.. END Source defined in %s'
@@ -77,6 +80,17 @@ def include_contributing_docs(_=None):
     yield read_text(comment_line)
     yield read_text(role_overrides)
     yield read_source('contributing.rst')
+
+
+def include_history_docs(_=None):
+    yield read_text(comment_line)
+    yield read_text(role_overrides)
+    yield read_source('history.rst')
+
+
+def include_authors_docs(_=None):
+    yield read_text(comment_line)
+    yield read_source('authors.rst')
 
 
 # PRE COMPOSED PARTIALS
@@ -178,6 +192,11 @@ def rule__everything_else(lines):
         if line.startswith('.. currentmodule::'):
             continue
 
+        if line.startswith('.. coding=utf-8'):
+            continue
+
+
+
         yield line
 
 
@@ -207,3 +226,5 @@ if __name__ == '__main__':
 
     routine(include_readme_docs, README)
     routine(include_contributing_docs, CONTRIBUTING)
+    routine(include_history_docs, HISTORY)
+    routine(include_authors_docs, AUTHORS)
