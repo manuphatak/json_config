@@ -1,3 +1,13 @@
-.. coding=utf-8
+=======
+Credits
+=======
 
-.. include:: ../../AUTHORS.rst
+Development Lead
+----------------
+
+* Manu Phatak <bionikspoon@gmail.com>
+
+Contributors
+------------
+
+None yet. Why not be the first?

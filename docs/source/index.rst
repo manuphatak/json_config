@@ -1,5 +1,3 @@
-.. coding=utf-8
-
 Welcome to json_config's documentation!
 =======================================
 
