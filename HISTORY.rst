@@ -8,7 +8,7 @@ Next Release
 ------------
 - Stay tuned
 
-2.0.0 (2016-01-0x)
+2.0.0 (2016-01-01)
 ------------------
 - BREAKING: (Internal API) ``connect.block`` removed
 - BREAKING: (Internal API) ``connect.write_file`` renamed to ``connect.save``
