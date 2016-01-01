@@ -80,7 +80,7 @@ Features
     >>> import json_config
     >>> config = json_config.connect('categories.json')
     >>> config
-    connect({})
+    Connect({})
     >>> config['comics']['dc']['batman']['antagonists'] = ['Scarecrow', 'The Joker', 'Bane']
     >>> config['comics']['marvel']['ironman']['antagonists'] = 'Ultron'
     >>> print(config.serialize())
@@ -162,7 +162,7 @@ To use json_config in a project:
 
     print(config['root'])
     #OUT: '/var/www/html/'
-    connect({'root': '/var/www/html/'})
+    config
     #OUT:  Connect({'root': '/var/www/html/'})
 
 
