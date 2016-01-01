@@ -1,6 +1,3 @@
-# Config file for automatic testing at travis-ci.org
-# This file will be regenerated if you run travis_pypi_setup.py
-
 language: python
 
 python:
@@ -10,11 +7,11 @@ install:
   - pip install tox coveralls
 
 env:
-  - TOXENV=py26
-  - TOXENV=py27
-  - TOXENV=py33
-  - TOXENV=py34
   - TOXENV=py35
+  - TOXENV=py34
+  - TOXENV=py33
+  - TOXENV=py27
+  - TOXENV=py26
   - TOXENV=pypy
   - TOXENV=docs
 
@@ -26,15 +23,17 @@ script:
 after_success:
   - coveralls
 
-# After you create the Github repo and add it to Travis, run the
-# travis_pypi_setup.py script to finish PyPI deployment setup
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: bionikspoon
   password:
-    secure: PLEASE_REPLACE_ME
+    secure: !!binary |
+      ZkJNaXJhNFBSWTlMeEZEaU5nSlV2OFlKVkVLT2JpVnd2KzFoVWFWMkYvdXJDSTkzemJ2WmcxUWpS
+      UmgwODFnYVF2VFFYTmxoZTdsclNJSUQwS2RXaysxK2p3b1Y4QjBwZmJKTHBGRDMxOVdOc0dOeXpN
+      ZnBCUUgrWjc4WTFYZmluMWJJTVFEU3RhLzJFK0NnMXZzTVNKL1hac2Qyb01SWTB1c0U4NE94eDZN
+      PQ==
   on:
     tags: true
     repo: bionikspoon/json_config
-    condition: $TOXENV == py34
+    condition: $TOXENV == py35
