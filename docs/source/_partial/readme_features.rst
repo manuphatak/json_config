@@ -22,7 +22,7 @@ Features
     >>> import json_config
     >>> config = json_config.connect('categories.json')
     >>> config
-    connect({})
+    Connect({})
     >>> config['comics']['dc']['batman']['antagonists'] = ['Scarecrow', 'The Joker', 'Bane']
     >>> config['comics']['marvel']['ironman']['antagonists'] = 'Ultron'
     >>> print(config.serialize())

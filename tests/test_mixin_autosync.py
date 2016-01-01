@@ -10,8 +10,8 @@ from tests.utils import dir_tests
 
 CONFIG = 'config.json'
 
-SAMPLE_CONFIG = 'sample_assets/sample_config.json'
-SAMPLE_CONFIG_LARGE = 'sample_assets/sample_config.json'
+SAMPLE_CONFIG_SMALL = 'sample_assets/sample_config_small.json'
+SAMPLE_CONFIG_LARGE = 'sample_assets/sample_config_large.json'
 
 
 class AutoJSON(AutoConfigBase):
@@ -75,7 +75,7 @@ def test_automatically_loads_config_file(tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
     # setup
     shutil.copytree(dir_tests('sample_assets'), tmpdir.join('sample_assets').strpath)
-    auto_load = AutoJSON(config_file=tmpdir.join(SAMPLE_CONFIG).strpath)
+    auto_load = AutoJSON(config_file=tmpdir.join(SAMPLE_CONFIG_SMALL).strpath)
 
     expected = {
         'cat_2': 'cat_2 value', 'cat_3': {
@@ -178,7 +178,7 @@ def test_loading_config_does_not_save_file(mocker, tmpdir):
     save = mocker.patch('json_config.main.AutoSyncMixin.save')
     shutil.copytree(dir_tests('sample_assets'), tmpdir.join('sample_assets').strpath)
 
-    auto_load = AutoJSON(config_file=tmpdir.join(SAMPLE_CONFIG).strpath)
+    auto_load = AutoJSON(config_file=tmpdir.join(SAMPLE_CONFIG_SMALL).strpath)
 
     assert save.call_count == 0
 

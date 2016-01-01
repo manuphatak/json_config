@@ -15,5 +15,5 @@ To use json_config in a project:
 
     print(config['root'])
     #OUT: '/var/www/html/'
-    connect({'root': '/var/www/html/'})
+    config
     #OUT:  Connect({'root': '/var/www/html/'})
