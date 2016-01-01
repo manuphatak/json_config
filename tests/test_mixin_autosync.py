@@ -14,12 +14,10 @@ SAMPLE_CONFIG = 'sample_assets/sample_config.json'
 SAMPLE_CONFIG_LARGE = 'sample_assets/sample_config.json'
 
 
-class AutoSave(AutoConfigBase):
+class AutoJSON(AutoConfigBase):
     def serialize(self):
         return json.dumps(dict(self), sort_keys=True)
 
-
-class AutoLoad(AutoConfigBase):
     def deserialize(self, string):
         return json.loads(string)
 
@@ -28,7 +26,7 @@ class AutoLoad(AutoConfigBase):
 def auto_save(tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
 
-    return AutoSave(config_file=tmpdir.join(CONFIG).strpath)
+    return AutoJSON(config_file=tmpdir.join(CONFIG).strpath)
 
 
 def test_saves_on_setting_leaf(auto_save, tmpdir):
@@ -77,7 +75,7 @@ def test_automatically_loads_config_file(tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
     # setup
     shutil.copytree(dir_tests('sample_assets'), tmpdir.join('sample_assets').strpath)
-    auto_load = AutoLoad(config_file=tmpdir.join(SAMPLE_CONFIG).strpath)
+    auto_load = AutoJSON(config_file=tmpdir.join(SAMPLE_CONFIG).strpath)
 
     expected = {
         'cat_2': 'cat_2 value', 'cat_3': {
@@ -98,11 +96,8 @@ def test_automatically_loads_config_file(tmpdir):
 def test_handles_empty_config_file(tmpdir):
     """:type tmpdir: py._path.local.LocalPath"""
 
-    class BasicConfig(AutoLoad, AutoSave):
-        pass
-
     empty = tmpdir.join('empty.json')
-    auto_load = BasicConfig(config_file=empty.strpath)
+    auto_load = AutoJSON(config_file=empty.strpath)
 
     assert auto_load == {}
 
@@ -144,7 +139,7 @@ def test_deleting_nested_item_only_saves_once(auto_save, mocker):
 # noinspection PyUnresolvedReferences
 def test_deleting_items_actually_saves_updated_value(auto_save, mocker, tmpdir):
     """
-    :type auto_save: AutoSave
+    :type auto_save: AutoJSON
     :type mocker: pytest_mock.MockFixture
     :type tmpdir: py._path.local.LocalPath
     """
@@ -173,3 +168,19 @@ def test_deleting_items_actually_saves_updated_value(auto_save, mocker, tmpdir):
         results2 = f.read()
     assert results2 == '{}'
     assert auto_save.save.call_count == 1
+
+
+def test_loading_config_does_not_save_file(mocker, tmpdir):
+    """
+    :type mocker: pytest_mock.MockFixture
+    :type tmpdir: py._path.local.LocalPath
+    """
+    save = mocker.patch('json_config.main.AutoSyncMixin.save')
+    shutil.copytree(dir_tests('sample_assets'), tmpdir.join('sample_assets').strpath)
+
+    auto_load = AutoJSON(config_file=tmpdir.join(SAMPLE_CONFIG).strpath)
+
+    assert save.call_count == 0
+
+    auto_load['test'] = 'success'
+    assert save.call_count == 1

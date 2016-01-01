@@ -2,6 +2,7 @@
 # coding=utf-8
 import json
 from collections import defaultdict
+from contextlib import contextmanager
 
 from ._compat import FileNotFoundError
 from .contracts import AbstractTraceRoot, AbstractSaveFile, AbstractSerializer
@@ -39,6 +40,30 @@ class TraceRootMixin(AbstractTraceRoot):
         else:
             self._parent_ = [value]
 
+    @property
+    def _lock(self):
+        return self._root._lock_
+
+    @_lock.setter
+    def _lock(self, value):
+        self._root._lock_ = value
+
+    @property
+    def _islocked(self):
+        return not self._lock is None
+
+    @contextmanager
+    def lock(self):
+        is_lock_owner = False
+        try:
+            if not self._islocked:
+                self._lock = self
+                is_lock_owner = True
+            yield is_lock_owner
+        finally:
+            if is_lock_owner:
+                self._lock = None
+
 
 class AutoDict(TraceRootMixin, defaultdict):
     def __init__(self, obj=None, _root=None, _parent=None, _key=None):
@@ -53,7 +78,8 @@ class AutoDict(TraceRootMixin, defaultdict):
         self._key = _key
 
         if obj is not None:
-            self.update(obj)
+            with self.lock():
+                self.update(obj)
 
     def __missing__(self, key):
         _AutoDict = self.__class__
@@ -80,6 +106,38 @@ class AutoDict(TraceRootMixin, defaultdict):
             del self._parent[self._key]
         else:
             self._root.save()
+
+    def update(self, E=None, **F):
+        """
+        D.update(E, **F) -> None.  Update D from E and F: for k in E: D[k]
+                = E[k]
+        (if E has keys else: for (k, v) in E: D[k] = v) then: for k in
+                F: D[k] = F[k]
+        """
+        _AutoDict = self.__class__
+
+        def update_or_set(key, value):
+            if isinstance(value, dict):
+                self[key] = _AutoDict(obj=value, _root=self._root, _parent=self, _key=key)
+            else:
+                self[key] = value
+
+        with self.lock() as lock_owner:
+            # update E
+            if hasattr(E, 'keys') and callable(E.keys):
+                for key in E:
+                    update_or_set(key, E[key])
+            else:
+                for key, value in E:
+                    update_or_set(key, value)
+
+            # update F
+            for key in F:
+                update_or_set(key, F[key])
+
+            # save if original caller.
+            if lock_owner:
+                self._root.save()
 
     def save(self):
         pass
@@ -122,13 +180,13 @@ class AutoSyncMixin(AbstractSaveFile, AbstractTraceRoot, AbstractSerializer):
         # noinspection PyUnresolvedReferences
         super(AutoSyncMixin, self).__setitem__(key, value)
 
-        if not isinstance(self[key], self.__class__):
+        is_cls = isinstance(self[key], self.__class__)
+        if not is_cls and not self._islocked:
             self._root.save()
 
     def save(self):
         if not self._is_root:
             raise RuntimeError('Trying to save from wrong node.')
-
 
         with open(self.config_file, 'w') as f:
             f.write(self.serialize())

@@ -26,12 +26,15 @@ def patched_connect(monkeypatch):
             kwargs.setdefault('config_file', config_file)
             super(MockAutoConfigBase, self).__init__(**kwargs)
 
+        # Internally used api
         def block(self):
             warn_depreciated()
 
+        # Internally used api
         def write_file(self):
             warn_depreciated()
 
+        # bridge old api
         def save(self):
             super(MockAutoConfigBase, self).save()
             self.write_file()
@@ -118,7 +121,9 @@ def test_it_uses_dictionary_syntax_for_deletions_from_empty(empty_config):
 
 
 def test_nodes_are_being_loaded_into_config_object(config):
-    assert isinstance(config['cat_1'], config.__class__)
+    from json_config.main import AutoSyncMixin
+
+    assert isinstance(config['cat_1'], AutoSyncMixin)
 
 
 def test_it_can_recursively_create_dictionaries(config):
@@ -149,7 +154,7 @@ def test_it_saves_when_a_value_is_set_from_empty(empty_config, empty_config_file
 
 
 def test_it_saves_only_once_when_a_value_is_set(empty_config, mocker):
-    mocker.spy(empty_config, 'write_file')
+    mocker.spy(empty_config, u'write_file')
     assert empty_config.write_file.call_count == 0
     empty_config['not a test'] = 'mildly pass'
     empty_config.block()
