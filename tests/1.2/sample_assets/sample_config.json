@@ -1,0 +1,34 @@
+{
+    "test": "success",
+    "cat_1": {
+        "sub_1": {
+            "sub_sub_1": {
+                "sub_sub_sub_1": "sub_sub_sub_1 value",
+                "sub_sub_sub_2": "sub_sub_sub_2 value"
+            }
+        }
+    },
+    "cat_2": "cat_2 value",
+    "cat_3": {
+        "sub_1": {
+            "sub_sub_1": "sub_sub_1 value",
+            "sub_sub_2": {
+                "sub_sub_sub_1": "sub_sub_sub_1",
+                "sub_sub_sub_2": "sub_sub_sub_2"
+            }
+        }
+    },
+    "cat_4": {
+        "0": {
+            "cat": "cat value 0"
+        },
+        "1": {
+            "cat": {
+                "nested_list": "nested_list value"
+            }
+        },
+        "2": {
+            "cat": "cat value 2"
+        }
+    }
+}

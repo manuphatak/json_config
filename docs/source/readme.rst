@@ -1,1 +1,7 @@
-.. include:: ../../README.rst
+.. coding=utf-8
+
+.. include:: _partial/readme_title.rst
+
+.. include:: _partial/readme_features.rst
+
+.. include:: _partial/readme_credits.rst

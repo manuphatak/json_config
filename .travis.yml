@@ -1,19 +1,39 @@
 language: python
-python: 2.7
+
+python:
+  - "3.5"
 
 install:
-  - pip install tox --use-mirrors
-  - pip install coveralls
+  - pip install tox coveralls
 
 env:
-  - TOXENV=py27
-  - TOXENV=py32
-  - TOXENV=py33
+  - TOXENV=py35
   - TOXENV=py34
+  - TOXENV=py33
+  - TOXENV=py27
+  - TOXENV=py26
   - TOXENV=pypy
   - TOXENV=docs
+
+# command to run tests, e.g. python setup.py test
 script:
   - tox -e $TOXENV
-  - coverage run --source=json_config setup.py test
+  - coverage run setup.py test
+
 after_success:
-  coveralls
+  - coveralls
+
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: bionikspoon
+  password:
+    secure: !!binary |
+      ZkJNaXJhNFBSWTlMeEZEaU5nSlV2OFlKVkVLT2JpVnd2KzFoVWFWMkYvdXJDSTkzemJ2WmcxUWpS
+      UmgwODFnYVF2VFFYTmxoZTdsclNJSUQwS2RXaysxK2p3b1Y4QjBwZmJKTHBGRDMxOVdOc0dOeXpN
+      ZnBCUUgrWjc4WTFYZmluMWJJTVFEU3RhLzJFK0NnMXZzTVNKL1hac2Qyb01SWTB1c0U4NE94eDZN
+      PQ==
+  on:
+    tags: true
+    repo: bionikspoon/json_config
+    condition: $TOXENV == py35
