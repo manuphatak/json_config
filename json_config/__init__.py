@@ -22,7 +22,7 @@ from __future__ import absolute_import
 
 __author__ = 'Manu Phatak'
 __email__ = 'bionikspoon@gmail.com'
-__version__ = '1.2.0'
+__version__ = '2.0.0'
 
 import logging
 from ._compat import NullHandler
