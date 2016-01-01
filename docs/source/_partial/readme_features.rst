@@ -11,11 +11,12 @@ Features
 
 - Automatically syncs file on changes.
 - Automatically handles complicated nested data structures.
+- Designed to be easily extended.  Use different serializer libraries to easily switch to yaml, ini, etc.
 - Lightweight (<5KB) and Fast.
 - Takes advantage of Python's native dictionary syntax.
-- Tested against python 2.6, 2.7, 3.3, 3.4, 3.5, and PYPY.
-- Saves silently in the background.
+- Tested against python 2.6, 2.7, 3.3, 3.4, 3.5, and PYPY!
 - Unit Tested with high coverage.
+- Idiomatic, self-descriptive code & api
 
 .. code-block:: python
 

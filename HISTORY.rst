@@ -1,14 +1,27 @@
+.. coding=utf-8
+
 =======
 History
 =======
 
 Next Release
 ------------
+- Stay tuned
 
-- Add support for py26 and py35
-- Pin dev dependencies
-- Reorganized package
-- Updated doc builds
+2.0.0 (2016-01-0x)
+------------------
+- BREAKING: (Internal API) ``connect.block`` removed
+- BREAKING: (Internal API) ``connect.write_file`` renamed to ``connect.save``
+- Feature: Rewrote the entire library to encapsulate logic
+- Feature: Extendable serializer contract, to allow any config format.
+- Feature: Upgrade to stable.
+- Feature: Removed threading in favor of a smarter locking mechanism
+- Feature: Add support for py26 and py35
+- Feature: Pin dependencies
+- Feature: Reorganized package and tests
+- Fix: Updated doc builds
+- Fix: Readme badge links
+
 
 1.2.0 (2015-05-18)
 ------------------
