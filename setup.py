@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
-"""The full documentation is at https://json_config.readthedocs.org."""
+"""The full documentation is at https://json_config.readthedocs.io."""
 
 try:
     from setuptools import setup
