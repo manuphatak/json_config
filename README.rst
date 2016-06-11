@@ -44,7 +44,7 @@ json_config
     :alt: Coverage Status
 
 .. image:: https://readthedocs.org/projects/json_config/badge/?version=develop
-    :target: https://json_config.readthedocs.org/en/develop/?badge=develop
+    :target: https://json_config.readthedocs.io/en/develop/?badge=develop
     :alt: Documentation Status
 
 
@@ -57,7 +57,7 @@ A convenience utility for working with JSON config files.
 Features
 --------
 
-- Documentation: https://json_config.readthedocs.org
+- Documentation: https://json_config.readthedocs.io
 - Open Source: https://github.com/bionikspoon/json_config
 - MIT license
 

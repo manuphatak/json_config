@@ -19,7 +19,7 @@ json_config
     :alt: Coverage Status
 
 .. image:: https://readthedocs.org/projects/json_config/badge/?version=develop
-    :target: https://json_config.readthedocs.org/en/develop/?badge=develop
+    :target: https://json_config.readthedocs.io/en/develop/?badge=develop
     :alt: Documentation Status
 
 

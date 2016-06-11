@@ -1,7 +1,7 @@
 Features
 --------
 
-- Documentation: https://json_config.readthedocs.org
+- Documentation: https://json_config.readthedocs.io
 - Open Source: https://github.com/bionikspoon/json_config
 - MIT license
 
